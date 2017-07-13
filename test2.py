@@ -58,7 +58,7 @@ triangles += [
 with open('test.stl', 'wb') as fp:
   fp.write(header)
   fp.write(struct.pack('<I', len(triangles)))
-  for triangle in triangles:
+  for tri in triangles:
     n1 = vec_sub(tri[0], tri[1])
     n2 = vec_sub(tri[1], tri[2])
     n = vec_cross(n1, n2)
