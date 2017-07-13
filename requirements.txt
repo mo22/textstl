@@ -1,2 +1,9 @@
 freetype-py
 
+PyOpenGL
+OpenGLContext
+PyVRML97
+pydispatcher
+numpy
+pillow
+
