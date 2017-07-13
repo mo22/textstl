@@ -34,25 +34,81 @@ def vec_len(a):
   return sum([ i**2 for i in a ]) ** 0.5
 
 
-triangles = []
-triangles += [
-  ( (0.0, 0.0, 1.0), (1.0, 0.0, 1.0), (1.0, 1.0, 1.0) ),
-  ( (1.0, 1.0, 1.0), (0.0, 1.0, 1.0), (0.0, 0.0, 1.0) ),
-]
+
 triangles = [
-  ((ax*10, ay*10, az*10), (bx*10, by*10, bz*10), (cx*10, cy*10, cz*10)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles[0:2]
+  (
+    (-1.0,-1.0,-1.0),
+    (-1.0,-1.0, 1.0),
+    (-1.0, 1.0, 1.0),
+  ), (
+    (1.0, 1.0,-1.0),
+    (-1.0,-1.0,-1.0),
+    (-1.0, 1.0,-1.0),
+  ), (
+    (1.0,-1.0, 1.0),
+    (-1.0,-1.0,-1.0),
+    (1.0,-1.0,-1.0),
+  ), (
+    (1.0, 1.0,-1.0),
+    (1.0,-1.0,-1.0),
+    (-1.0,-1.0,-1.0),
+  ), (
+    (-1.0,-1.0,-1.0),
+    (-1.0, 1.0, 1.0),
+    (-1.0, 1.0,-1.0),
+  ), (
+    (1.0,-1.0, 1.0),
+    (-1.0,-1.0, 1.0),
+    (-1.0,-1.0,-1.0),
+  ), (
+    (-1.0, 1.0, 1.0),
+    (-1.0,-1.0, 1.0),
+    (1.0,-1.0, 1.0),
+  ), (
+    (1.0, 1.0, 1.0),
+    (1.0,-1.0,-1.0),
+    (1.0, 1.0,-1.0),
+  ), (
+    (1.0,-1.0,-1.0),
+    (1.0, 1.0, 1.0),
+    (1.0,-1.0, 1.0),
+  ), (
+    (1.0, 1.0, 1.0),
+    (1.0, 1.0,-1.0),
+    (-1.0, 1.0,-1.0),
+  ), (
+    (1.0, 1.0, 1.0),
+    (-1.0, 1.0,-1.0),
+    (-1.0, 1.0, 1.0),
+  ), (
+    (1.0, 1.0, 1.0),
+    (-1.0, 1.0, 1.0),
+    (1.0,-1.0, 1.0)
+  )
 ]
-# mirror z axis
-triangles += [
-  ((bx, by, -az), (ax, ay, -bz), (cx, cy, -cz)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles[0:2]
+
+triangles = [
+  ((ax*5, ay*5, az*5), (bx*5, by*5, bz*5), (cx*5, cy*5, cz*5)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles
 ]
-# create other sides
-triangles += [
-  (b, c, a) for (a, b, c) in triangles[0:4]
-]
-triangles += [
-  (c, a, b) for (a, b, c) in triangles[0:4]
-]
+
+# triangles = []
+# triangles += [
+#   ( (-1.0, -1.0,  1.0), ( 1.0, -1.0,  1.0), ( 1.0,  1.0,  1.0) ),
+#   ( ( 1.0,  1.0,  1.0), (-1.0,  1.0,  1.0), (-1.0, -1.0,  1.0) ),
+# ]
+# triangles = [
+#   ((ax*5, ay*5, az*5), (bx*5, by*5, bz*5), (cx*5, cy*5, cz*5)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles[0:2]
+# ]
+# # create other sides
+# triangles += [
+#   ((bx, bz, by), (ax, az, ay), (cx, cz, cy)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles
+# ] + [
+#   ((az, ax, ay), (bz, bx, by), (cz, cx, cy)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles
+# ]
+# # mirror z axis
+# triangles += [
+#   ((bx, by, -bz), (ax, ay, -az), (cx, cy, -cz)) for ((ax, ay, az), (bx, by, bz), (cx, cy, cz)) in triangles
+# ]
 
 
 with open('test.stl', 'wb') as fp:
@@ -63,6 +119,7 @@ with open('test.stl', 'wb') as fp:
     n2 = vec_sub(tri[1], tri[2])
     n = vec_cross(n1, n2)
     n = vec_scale(n, 1 / vec_len(n))
+    # n = [ 1, 0, 0]
     fp.write(struct.pack('<fff', n[0], n[1], n[2]))
     fp.write(struct.pack('<fff', tri[0][0], tri[0][1], tri[0][2]))
     fp.write(struct.pack('<fff', tri[1][0], tri[1][1], tri[1][2]))
