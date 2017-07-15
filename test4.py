@@ -1,3 +1,6 @@
+# https://github.com/WoLpH/numpy-stl/blob/develop/README.rst
+# https://stackoverflow.com/questions/37506315/triangulation-of-a-polygon-using-matplotlib
+
 import stl
 import math
 import numpy
