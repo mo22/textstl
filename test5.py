@@ -5,7 +5,6 @@ import stl
 import math
 import numpy
 
-
 vertices = numpy.array([
   [-1, -1, -1],
   [+1, -1, -1],
