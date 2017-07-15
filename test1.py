@@ -31,17 +31,21 @@ if True:
     print ('')
 
 if True:
-    face.set_char_size( 100 )
-    face.load_char('S')
+    face.set_char_size(100)
+    face.load_char('a')
 
-    VERTS = []
-    CODES = []
+    polygons = []
+
     start = 0
     end = 0
     for i in range(len(face.glyph.outline.contours)):
         end = face.glyph.outline.contours[i]
         points = face.glyph.outline.points[start:end+1]
         points.append(points[0])
+        
+        polygons.append(points)
+
+        """
         tags = face.glyph.outline.tags[start:end+1]
         tags.append(tags[0])
         segments = [ [points[0],], ]
@@ -50,29 +54,31 @@ if True:
             if tags[j] & (1 << 0) and j < (len(points)-1):
                 segments.append( [points[j],] )
         verts = [points[0], ]
-        codes = ['MOVETO',]
         for segment in segments:
             if len(segment) == 2:
                 verts.extend(segment[1:])
-                codes.extend(['LINETO'])
+                #codes.extend(['LINETO'])
             elif len(segment) == 3:
                 verts.extend(segment[1:])
-                codes.extend(['CURVE3', 'CURVE3'])
+                #codes.extend(['CURVE3', 'CURVE3'])
             else:
                 verts.append(segment[1])
-                codes.append('CURVE3')
+                #codes.append('CURVE3')
                 for i in range(1,len(segment)-2):
                     A,B = segment[i], segment[i+1]
                     C = ((A[0]+B[0])/2.0, (A[1]+B[1])/2.0)
                     verts.extend([ C, B ])
-                    codes.extend([ 'CURVE3', 'CURVE3'])
+                    #codes.extend([ 'CURVE3', 'CURVE3'])
                 verts.append(segment[-1])
-                codes.append('CURVE3')
-        VERTS.extend(verts)
-        CODES.extend(codes)
+                #codes.append('CURVE3')
+        polygons.append(verts)
+        """
         start = end+1
 
-    print( 'VERTS', VERTS )
-    print( 'CODES', CODES )
-    print( 'VERTS', len(VERTS) )
-    print( 'CODES', len(CODES) )
+    import numpy as np
+    import matplotlib.pyplot as plt
+    for verts in polygons:
+        v = np.array(verts)
+        plt.plot(v[:,0], v[:,1])
+    plt.show()
+
