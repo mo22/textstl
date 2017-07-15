@@ -30,17 +30,10 @@ if True:
     print ('Is scalable:         {}'.format(face.is_scalable))
     print ('')
 
-
-
 if True:
-    face.set_char_size( 48*64 )
+    face.set_char_size( 100 )
     face.load_char('S')
-    print( 'width', face.glyph.bitmap.width )
-    print( 'rows', face.glyph.bitmap.rows )
-    print( 'pitch', face.glyph.bitmap.pitch )
-    print( 'buffer', face.glyph.bitmap.buffer )
 
-if True:
     VERTS = []
     CODES = []
     start = 0

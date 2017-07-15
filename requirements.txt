@@ -1,5 +1,7 @@
 freetype-py
 
+numpy-stl
+
 PyOpenGL
 OpenGLContext
 PyVRML97
