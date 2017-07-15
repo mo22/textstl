@@ -87,7 +87,7 @@ if False:
 
 
 face.set_char_size(100)
-face.load_char('x')
+face.load_char('l')
 # face.load_char('8')
 # face.load_char('i')
 
@@ -138,8 +138,17 @@ for i in range(len(face.glyph.outline.contours)):
 
 
 
+# import polytri
+import triangulate
+import polygon
 
 for verts in polygons:
+    p = polygon.SimplePolygon(verts[0:-1], True)
+    x = triangulate.Triangulate([], p)
+    print( x.triangulate() )
+    # x = list( polytri.triangulate(verts[0:-1]) )
+    # print( x )
+
     verts = np.array(verts)
 
     tri = scipy.spatial.Delaunay(verts)
