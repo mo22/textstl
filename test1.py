@@ -1,6 +1,11 @@
 from __future__ import print_function
 import freetype
 import math
+import scipy.spatial
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 
 # clockwise = outer contour, otherwise inner contour
 def is_clockwise(points):
@@ -43,9 +48,15 @@ def is_clockwise(points):
 
 
 
+
+
+
+
+
+
 face = freetype.Face('Damion-Regular.ttf')
 
-if True:
+if False:
     print ('Family name:         {}'.format(face.family_name))
     print ('Style name:          {}'.format(face.style_name))
     print ('Charmaps:            {}'.format([charmap.encoding_name for charmap in face.charmaps]))
@@ -71,64 +82,70 @@ if True:
     print ('Is fixed width:      {}'.format(face.is_fixed_width))
     print ('Is scalable:         {}'.format(face.is_scalable))
     print ('')
-
-if True:
-    face.set_char_size(100)
-    face.load_char('8')
-    # face.load_char('i')
-
     print( face.glyph.metrics ) # GlyphMetrics
     print( face.glyph.advance ) # FT_Vector
 
-    # face glyph advance 
+
+face.set_char_size(100)
+face.load_char('x')
+# face.load_char('8')
+# face.load_char('i')
 
 
 
-    polygons = []
 
-    start = 0
-    end = 0
-    for i in range(len(face.glyph.outline.contours)):
-        end = face.glyph.outline.contours[i]
-        points = face.glyph.outline.points[start:end+1]
-        points.append(points[0])
-        print("XXX", i, is_clockwise(points))
-        polygons.append(points)
-        # tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
-        """
-        tags = face.glyph.outline.tags[start:end+1]
-        tags.append(tags[0])
-        segments = [ [points[0],], ]
-        for j in range(1, len(points) ):
-            segments[-1].append(points[j])
-            if tags[j] & (1 << 0) and j < (len(points)-1):
-                segments.append( [points[j],] )
-        verts = [points[0], ]
-        for segment in segments:
-            if len(segment) == 2:
-                verts.extend(segment[1:])
-                #codes.extend(['LINETO'])
-            elif len(segment) == 3:
-                verts.extend(segment[1:])
-                #codes.extend(['CURVE3', 'CURVE3'])
-            else:
-                verts.append(segment[1])
-                #codes.append('CURVE3')
-                for i in range(1,len(segment)-2):
-                    A,B = segment[i], segment[i+1]
-                    C = ((A[0]+B[0])/2.0, (A[1]+B[1])/2.0)
-                    verts.extend([ C, B ])
-                    #codes.extend([ 'CURVE3', 'CURVE3'])
-                verts.append(segment[-1])
-                #codes.append('CURVE3')
-        polygons.append(verts)
-        """
-        start = end+1
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    for verts in polygons:
-        v = np.array(verts)
-        plt.plot(v[:,0], v[:,1])
-    plt.show()
+
+polygons = []
+start = 0
+end = 0
+for i in range(len(face.glyph.outline.contours)):
+    end = face.glyph.outline.contours[i]
+    points = face.glyph.outline.points[start:end+1]
+    points.append(points[0])
+    print("XXX", i, is_clockwise(points))
+    polygons.append(points)
+    # tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
+    """
+    tags = face.glyph.outline.tags[start:end+1]
+    tags.append(tags[0])
+    segments = [ [points[0],], ]
+    for j in range(1, len(points) ):
+        segments[-1].append(points[j])
+        if tags[j] & (1 << 0) and j < (len(points)-1):
+            segments.append( [points[j],] )
+    verts = [points[0], ]
+    for segment in segments:
+        if len(segment) == 2:
+            verts.extend(segment[1:])
+            #codes.extend(['LINETO'])
+        elif len(segment) == 3:
+            verts.extend(segment[1:])
+            #codes.extend(['CURVE3', 'CURVE3'])
+        else:
+            verts.append(segment[1])
+            #codes.append('CURVE3')
+            for i in range(1,len(segment)-2):
+                A,B = segment[i], segment[i+1]
+                C = ((A[0]+B[0])/2.0, (A[1]+B[1])/2.0)
+                verts.extend([ C, B ])
+                #codes.extend([ 'CURVE3', 'CURVE3'])
+            verts.append(segment[-1])
+            #codes.append('CURVE3')
+    polygons.append(verts)
+    """
+    start = end+1
+
+
+
+
+for verts in polygons:
+    verts = np.array(verts)
+
+    tri = scipy.spatial.Delaunay(verts)
+    plt.triplot(verts[:,0], verts[:,1], tri.simplices.copy())
+
+    plt.plot(verts[:,0], verts[:,1])
+
+plt.show()
 
