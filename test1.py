@@ -1,5 +1,47 @@
 from __future__ import print_function
 import freetype
+import math
+
+# clockwise = outer contour, otherwise inner contour
+def is_clockwise(points):
+    def getangle(vector):
+        x,y=vector[0],vector[1]
+        anglerad=0
+        if x==0:
+            if y>0: anglerad = math.pi/2.0
+            elif y<0: anglerad = -math.pi/2.0
+        else:
+            anglerad = math.atan(float(y)/float(x))
+            if x<0 and y>=0: anglerad=math.pi+anglerad
+            elif x<0 and y<0: anglerad=-math.pi+anglerad
+        return anglerad
+    def rotate(vector,radians):
+        x,y=vector[0],vector[1]
+        newx=x*math.cos(radians) - y*math.sin(radians)
+        newy=x*math.sin(radians) + y*math.cos(radians)
+        return [newx,newy]
+    def getdiff(point1,point2):
+        return [point2[0]-point1[0],point2[1]-point1[1]]
+    def getangle_change(p0,p1,p2):
+        vect1 = getdiff(p0,p1)
+        angle1 = getangle(vect1)
+        p1new = rotate(p1,-angle1)
+        p2new = rotate(p2,-angle1)
+        vectnew = getdiff(p1new,p2new)
+        angle2 = getangle(vectnew)
+        return angle2
+    angle_total=0
+    ps = points
+    np = len(ps)
+    for i in range(np):
+        change = getangle_change(ps[i],ps[(i+1)%np],ps[(i+2)%np])
+        if abs(change-math.pi)<0.000001:
+            if abs(angle_total+math.pi)<0.00001:
+                change=-1*change
+        angle_total += change
+    return angle_total<=0
+
+
 
 face = freetype.Face('Damion-Regular.ttf')
 
@@ -32,7 +74,15 @@ if True:
 
 if True:
     face.set_char_size(100)
-    face.load_char('a')
+    face.load_char('8')
+    # face.load_char('i')
+
+    print( face.glyph.metrics ) # GlyphMetrics
+    print( face.glyph.advance ) # FT_Vector
+
+    # face glyph advance 
+
+
 
     polygons = []
 
@@ -42,9 +92,9 @@ if True:
         end = face.glyph.outline.contours[i]
         points = face.glyph.outline.points[start:end+1]
         points.append(points[0])
-        
+        print("XXX", i, is_clockwise(points))
         polygons.append(points)
-
+        # tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
         """
         tags = face.glyph.outline.tags[start:end+1]
         tags.append(tags[0])
