@@ -100,13 +100,12 @@ def process_glyph(face):
     start = 0
     for i in range(len(face.glyph.outline.contours)):
         end = face.glyph.outline.contours[i]
-        polypoints = face.glyph.outline.points[start:end+1]
-        polypoints.append(polypoints[0])
-        if is_clockwise(polypoints):
+        if is_clockwise(face.glyph.outline.points[start:end+1] + [face.glyph.outline.points[start]]):
             segments.append(face.glyph.outline.points[start:end+1])
         else:
             holes.append(face.glyph.outline.points[start:end+1])
-        start = end
+
+        start = end+1
     return (segments, holes)
 
 # generate list of triangle coordinates ((x, y, z), (x, y, z), (x, y, z))
@@ -121,7 +120,7 @@ def process_earcut(segment, holes):
         for (x, y) in hole:
             points.append(x)
             points.append(y)
-    print("earcut", len(points), hole_indices)
+    # print("earcut", len(points), hole_indices)
     import earcut
     tris = earcut.earcut(points, hole_indices, 2)
     res = []
@@ -170,8 +169,8 @@ bottom = []
 for (ax, ay), (bx, by), (cx, cy) in triangles:
     bottom.append((
         (ax, ay, -width/2),
-        (bx, by, -width/2),
-        (cx, cy, -width/2)
+        (cx, cy, -width/2),
+        (bx, by, -width/2)
     ))
     top.append((
         (ax, ay, width/2),
@@ -206,67 +205,67 @@ mesh.save('test.stl')
 
 
 
-if False:
+# if False:
 
-    polygons = []
-    start = 0
-    end = 0
-    for i in range(len(face.glyph.outline.contours)):
-        end = face.glyph.outline.contours[i]
-        points = face.glyph.outline.points[start:end+1]
-        points.append(points[0])
-        print("XXX", i, is_clockwise(points))
-        polygons.append(points)
-        # tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
-        """
-        tags = face.glyph.outline.tags[start:end+1]
-        tags.append(tags[0])
-        segments = [ [points[0],], ]
-        for j in range(1, len(points) ):
-            segments[-1].append(points[j])
-            if tags[j] & (1 << 0) and j < (len(points)-1):
-                segments.append( [points[j],] )
-        verts = [points[0], ]
-        for segment in segments:
-            if len(segment) == 2:
-                verts.extend(segment[1:])
-                #codes.extend(['LINETO'])
-            elif len(segment) == 3:
-                verts.extend(segment[1:])
-                #codes.extend(['CURVE3', 'CURVE3'])
-            else:
-                verts.append(segment[1])
-                #codes.append('CURVE3')
-                for i in range(1,len(segment)-2):
-                    A,B = segment[i], segment[i+1]
-                    C = ((A[0]+B[0])/2.0, (A[1]+B[1])/2.0)
-                    verts.extend([ C, B ])
-                    #codes.extend([ 'CURVE3', 'CURVE3'])
-                verts.append(segment[-1])
-                #codes.append('CURVE3')
-        polygons.append(verts)
-        """
-        start = end+1
+#     polygons = []
+#     start = 0
+#     end = 0
+#     for i in range(len(face.glyph.outline.contours)):
+#         end = face.glyph.outline.contours[i]
+#         points = face.glyph.outline.points[start:end+1]
+#         points.append(points[0])
+#         print("XXX", i, is_clockwise(points))
+#         polygons.append(points)
+#         # tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
+#         """
+#         tags = face.glyph.outline.tags[start:end+1]
+#         tags.append(tags[0])
+#         segments = [ [points[0],], ]
+#         for j in range(1, len(points) ):
+#             segments[-1].append(points[j])
+#             if tags[j] & (1 << 0) and j < (len(points)-1):
+#                 segments.append( [points[j],] )
+#         verts = [points[0], ]
+#         for segment in segments:
+#             if len(segment) == 2:
+#                 verts.extend(segment[1:])
+#                 #codes.extend(['LINETO'])
+#             elif len(segment) == 3:
+#                 verts.extend(segment[1:])
+#                 #codes.extend(['CURVE3', 'CURVE3'])
+#             else:
+#                 verts.append(segment[1])
+#                 #codes.append('CURVE3')
+#                 for i in range(1,len(segment)-2):
+#                     A,B = segment[i], segment[i+1]
+#                     C = ((A[0]+B[0])/2.0, (A[1]+B[1])/2.0)
+#                     verts.extend([ C, B ])
+#                     #codes.extend([ 'CURVE3', 'CURVE3'])
+#                 verts.append(segment[-1])
+#                 #codes.append('CURVE3')
+#         polygons.append(verts)
+#         """
+#         start = end+1
 
 
 
-    # import polytri
-    import triangulate
-    import polygon
+#     # import polytri
+#     import triangulate
+#     import polygon
 
-    for verts in polygons:
-        p = polygon.SimplePolygon(verts[0:-1], True)
-        x = triangulate.Triangulate([], p)
-        print( x.triangulate() )
-        # x = list( polytri.triangulate(verts[0:-1]) )
-        # print( x )
+#     for verts in polygons:
+#         p = polygon.SimplePolygon(verts[0:-1], True)
+#         x = triangulate.Triangulate([], p)
+#         print( x.triangulate() )
+#         # x = list( polytri.triangulate(verts[0:-1]) )
+#         # print( x )
 
-        verts = np.array(verts)
+#         verts = np.array(verts)
 
-        tri = scipy.spatial.Delaunay(verts)
-        plt.triplot(verts[:,0], verts[:,1], tri.simplices.copy())
+#         tri = scipy.spatial.Delaunay(verts)
+#         plt.triplot(verts[:,0], verts[:,1], tri.simplices.copy())
 
-        plt.plot(verts[:,0], verts[:,1])
+#         plt.plot(verts[:,0], verts[:,1])
 
-    plt.show()
+#     plt.show()
 

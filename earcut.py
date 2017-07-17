@@ -2,6 +2,8 @@ import math
 
 __all__ = ['earcut', 'deviation', 'flatten']
 
+if not hasattr(math, 'inf'):
+    setattr(math, 'inf', float('inf'))
 
 def earcut(data, holeIndices=None, dim=None):
     dim = dim or 2
