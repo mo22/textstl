@@ -169,6 +169,8 @@ function toTHREE(triangles) {
     return geometry;
 }
 
+// THREE to binary STL...
+
 async function main() {
     let font = await loadFont('Damion-Regular.ttf');
     // let triangles = extrudeGlyph(font, font.charToGlyph('8'), 72, 20);
