@@ -128,6 +128,7 @@ async function main() {
             new THREE.Face3(geometry.vertices.length-3, geometry.vertices.length-2, geometry.vertices.length-1)
         );
     }
+    require('fs').writeFileSync('test.json', JSON.stringify(geometry.toJSON()));
 
 }
 
