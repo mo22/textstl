@@ -5,8 +5,11 @@ async function main() {
         opentype.load('Damion-Regular.ttf', (err, font) => err ? reject(err) : resolve(font));
     });
 
+    console.log('font', font);
+
     let path = font.getPath('Hello, World!', 0, 150, 72);
-    console.log('path', path.commands);
+    console.log('path', path);
+    // type: L, type Q, type M, 
 }
 
 main().catch(console.error);
