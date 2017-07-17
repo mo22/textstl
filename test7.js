@@ -1,10 +1,6 @@
 import * as opentype from 'opentype.js';
 import earcut from 'earcut';
-
-// Signature: earcut(vertices[, holes, dimensions = 2]).
-// vertices is a flat array of vertice coordinates like [x0,y0, x1,y1, x2,y2, ...].
-// holes is an array of hole indices if any (e.g. [5, 8] for a 12-vertice input would mean one hole with vertices 5–7 and another with 8–11).
-// dimensions is the number of coordinates per vertice in the input array (2 by default).
+import * as THREE from 'three';
 
 async function main() {
     let font = await new Promise((resolve, reject) => {
@@ -120,13 +116,18 @@ async function main() {
     buffer += 'endsolid test\n';
     require('fs').writeFileSync('test.stl', buffer);
 
-    // var geometry = new THREE.Geometry();
-    // geometry.vertices.push(
-    //     new THREE.Vector3( -10,  10, 0 ),
-    //     new THREE.Vector3( -10, -10, 0 ),
-    //     new THREE.Vector3(  10, -10, 0 )
-    // );
-    // geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    // THREE
+    let geometry = new THREE.Geometry();
+    for (let tri of all) {
+        geometry.vertices.push(
+            new THREE.Vector3(tri.a.x, tri.a.y, tri.a.z),
+            new THREE.Vector3(tri.b.x, tri.b.y, tri.b.z),
+            new THREE.Vector3(tri.c.x, tri.c.y, tri.c.z),
+        );
+        geometry.faces.push(
+            new THREE.Face3(geometry.vertices.length-3, geometry.vertices.length-2, geometry.vertices.length-1)
+        );
+    }
 
 }
 
