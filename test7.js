@@ -57,9 +57,8 @@ async function main() {
             });
         }
     }
-    console.log('triangles', triangles);
 
-    let width = 5;
+    let width = 200;
 
     let top = [];
     let bottom = [];
@@ -94,12 +93,9 @@ async function main() {
         }
     }
 
-    console.log('sides', sides);
-
-
     let all = [].concat(top).concat(bottom).concat(sides);
-    // STL?
 
+    // STL?
     var buffer = 'solid test\n';
     for (let tri of all) {
         let ab = { x: tri.b.x-tri.a.x, y: tri.b.y-tri.a.y, z: tri.b.z-tri.a.z };
@@ -113,17 +109,16 @@ async function main() {
         cc.x /= ccl;
         cc.y /= ccl;
         cc.z /= ccl;
-        buffer += 'facet normal '+cc.x+' '+cc.y+' '+cc.z+'\n';
+        buffer += 'facet normal ' + cc.x + ' ' + cc.y + ' ' + cc.z + '\n';
         buffer += 'outer loop\n';
-        buffer += 'vertex ' + tri.a.x + ' ' + tri.a.y + ' ' + tri.a.z;
-        buffer += 'vertex ' + tri.b.x + ' ' + tri.b.y + ' ' + tri.b.z;
-        buffer += 'vertex ' + tri.c.x + ' ' + tri.c.y + ' ' + tri.c.z;
+        buffer += 'vertex ' + tri.a.x + ' ' + tri.a.y + ' ' + tri.a.z + '\n';
+        buffer += 'vertex ' + tri.b.x + ' ' + tri.b.y + ' ' + tri.b.z + '\n';
+        buffer += 'vertex ' + tri.c.x + ' ' + tri.c.y + ' ' + tri.c.z + '\n';
         buffer += 'endloop\n';
         buffer += 'endfacet\n';
     }
     buffer += 'endsolid test\n';
-    console.log(buffer);
-
+    require('fs').writeFileSync('test.stl', buffer);
 
     // var geometry = new THREE.Geometry();
     // geometry.vertices.push(
@@ -132,10 +127,6 @@ async function main() {
     //     new THREE.Vector3(  10, -10, 0 )
     // );
     // geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
-
-
-
-    console.log('segments', segments.length, 'holes', holes.length);
 
 }
 
