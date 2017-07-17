@@ -1,0 +1,13 @@
+{
+  "name": "textstl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://git@bitbucket.org/mm22/textstl",
+  "author": "Moritz Moeller <mm@mxs.de>",
+  "license": "MIT",
+  "dependencies": {
+    "earcut": "^2.1.1",
+    "opentype.js": "^0.7.2",
+    "three": "^0.86.0"
+  }
+}
