@@ -2,16 +2,17 @@ import * as opentype from 'opentype.js';
 import earcut from 'earcut';
 import * as THREE from 'three';
 
-async function main() {
-    let font = await new Promise((resolve, reject) => {
+// load font from google fonts?
+
+function loadFont(file) {
+    return new Promise((resolve, reject) => {
         opentype.load('Damion-Regular.ttf', (err, font) => err ? reject(err) : resolve(font));
     });
+}
 
-    let glyph = font.charToGlyph('8');
-    glyph.getMetrics(); // required? why?
-
-    // console.log('A', glyph.getMetrics()); // xMin, yMax, leftSideBearing, rightSideBearing
-    // console.log('B', glyph.getContours()); // array of array, onCurve, lastPointOfContour, x, y
+function extrudeGlyph(font, glyph, size, width) {
+    let metrics = glyph.getMetrics();
+    let fontScale = 1 / font.unitsPerEm * size;
 
     let segments = [];
     let holes = [];
@@ -54,20 +55,18 @@ async function main() {
         }
     }
 
-    let width = 200;
-
     let top = [];
     let bottom = [];
     for (let tri of triangles) {
         bottom.push({
-            a: { x: tri.a.x, y: tri.a.y, z: -width/2 },
-            b: { x: tri.c.x, y: tri.c.y, z: -width/2 },
-            c: { x: tri.b.x, y: tri.b.y, z: -width/2 },
+            a: { x: tri.a.x, y: tri.a.y, z: -1 },
+            b: { x: tri.c.x, y: tri.c.y, z: -1 },
+            c: { x: tri.b.x, y: tri.b.y, z: -1 },
         });
         top.push({
-            a: { x: tri.a.x, y: tri.a.y, z: +width/2 },
-            b: { x: tri.b.x, y: tri.b.y, z: +width/2 },
-            c: { x: tri.c.x, y: tri.c.y, z: +width/2 },
+            a: { x: tri.a.x, y: tri.a.y, z: +1 },
+            b: { x: tri.b.x, y: tri.b.y, z: +1 },
+            c: { x: tri.c.x, y: tri.c.y, z: +1 },
         });
     }
 
@@ -76,24 +75,60 @@ async function main() {
         var lastPoint = contour[contour.length-1];
         for (let point of contour) {
             sides.push({
-                a: { x: lastPoint.x, y: lastPoint.y, z: +width/2 },
-                b: { x: point.x,     y: point.y,     z: +width/2 },
-                c: { x: lastPoint.x, y: lastPoint.y, z: -width/2 },
+                a: { x: lastPoint.x, y: lastPoint.y, z: +1 },
+                b: { x: point.x,     y: point.y,     z: +1 },
+                c: { x: lastPoint.x, y: lastPoint.y, z: -1 },
             });
             sides.push({
-                a: { x: lastPoint.x, y: lastPoint.y, z: -width/2 },
-                b: { x: point.x,     y: point.y,     z: +width/2 },
-                c: { x: point.x,     y: point.y,     z: -width/2 },
+                a: { x: lastPoint.x, y: lastPoint.y, z: -1 },
+                b: { x: point.x,     y: point.y,     z: +1 },
+                c: { x: point.x,     y: point.y,     z: -1 },
             });
             lastPoint = point;
         }
     }
 
     let all = [].concat(top).concat(bottom).concat(sides);
-
-    // STL?
-    var buffer = 'solid test\n';
     for (let tri of all) {
+        tri.a.x *= fontScale;
+        tri.a.y *= fontScale;
+        tri.a.z *= width/2;
+        tri.b.x *= fontScale;
+        tri.b.y *= fontScale;
+        tri.b.z *= width/2;
+        tri.c.x *= fontScale;
+        tri.c.y *= fontScale;
+        tri.c.z *= width/2;
+    }
+    return all;
+}
+
+function extrudeString(font, string, size, width, options) {
+    let result = [];
+    var dx = 0;
+    var dy = 0;
+    font.forEachGlyph(string, 0, 0, size, options, (glyph, x, y) => {
+        let triangles = extrudeGlyph(font, glyph, size, width);
+        x += dx;
+        y += dy;
+        dx += options.dx || 0;
+        dy += options.dy || 0;
+        for (let tri of triangles) {
+            tri.a.x += x;
+            tri.b.x += x;
+            tri.c.x += x;
+            tri.a.y += y;
+            tri.b.y += y;
+            tri.c.y += y;
+        }
+        result = result.concat(triangles);
+    });
+    return result;
+}
+
+function saveSTL(triangles, filename) {
+    var buffer = 'solid test\n';
+    for (let tri of triangles) {
         let ab = { x: tri.b.x-tri.a.x, y: tri.b.y-tri.a.y, z: tri.b.z-tri.a.z };
         let cb = { x: tri.c.x-tri.b.x, y: tri.c.y-tri.b.y, z: tri.c.z-tri.b.z };
         let cc = {
@@ -114,11 +149,12 @@ async function main() {
         buffer += 'endfacet\n';
     }
     buffer += 'endsolid test\n';
-    require('fs').writeFileSync('test.stl', buffer);
+    require('fs').writeFileSync(filename, buffer);    
+}
 
-    // THREE
+function toTHREE(triangles) {
     let geometry = new THREE.Geometry();
-    for (let tri of all) {
+    for (let tri of triangles) {
         geometry.vertices.push(
             new THREE.Vector3(tri.a.x, tri.a.y, tri.a.z),
             new THREE.Vector3(tri.b.x, tri.b.y, tri.b.z),
@@ -128,8 +164,14 @@ async function main() {
             new THREE.Face3(geometry.vertices.length-3, geometry.vertices.length-2, geometry.vertices.length-1)
         );
     }
-    require('fs').writeFileSync('test.json', JSON.stringify(geometry.toJSON()));
+    return geometry;
+}
 
+async function main() {
+    let font = await loadFont('Damion-Regular.ttf');
+    // let triangles = extrudeGlyph(font, font.charToGlyph('8'), 72, 20);
+    let triangles = extrudeString(font, 'Hallo', 72, 20, {dx: 0});
+    saveSTL(triangles, 'test.stl');
 }
 
 main().catch(console.error);
