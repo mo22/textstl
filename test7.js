@@ -5,6 +5,7 @@ import * as THREE from 'three';
 // load font from google fonts?
 // https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
 // access-control is da.
+// https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
 
 function loadFont(file) {
     return new Promise((resolve, reject) => {
