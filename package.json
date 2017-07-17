@@ -9,5 +9,9 @@
     "earcut": "^2.1.1",
     "opentype.js": "^0.7.2",
     "three": "^0.86.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-latest": "^6.24.1"
   }
 }
