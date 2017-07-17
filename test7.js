@@ -97,7 +97,41 @@ async function main() {
     console.log('sides', sides);
 
 
+    let all = [].concat(top).concat(bottom).concat(sides);
+    // STL?
 
+    var buffer = 'solid test\n';
+    for (let tri of all) {
+        let ab = { x: tri.b.x-tri.a.x, y: tri.b.y-tri.a.y, z: tri.b.z-tri.a.z };
+        let cb = { x: tri.c.x-tri.b.x, y: tri.c.y-tri.b.y, z: tri.c.z-tri.b.z };
+        let cc = {
+            x: ab.y*cb.z - ab.z*cb.y,
+            y: ab.z*cb.x - ab.x*cb.z,
+            z: ab.x*cb.y - ab.y*cb.x,
+        }
+        let ccl = Math.sqrt(cc.x*cc.x + cc.y*cc.y + cc.z*cc.z);
+        cc.x /= ccl;
+        cc.y /= ccl;
+        cc.z /= ccl;
+        buffer += 'facet normal '+cc.x+' '+cc.y+' '+cc.z+'\n';
+        buffer += 'outer loop\n';
+        buffer += 'vertex ' + tri.a.x + ' ' + tri.a.y + ' ' + tri.a.z;
+        buffer += 'vertex ' + tri.b.x + ' ' + tri.b.y + ' ' + tri.b.z;
+        buffer += 'vertex ' + tri.c.x + ' ' + tri.c.y + ' ' + tri.c.z;
+        buffer += 'endloop\n';
+        buffer += 'endfacet\n';
+    }
+    buffer += 'endsolid test\n';
+    console.log(buffer);
+
+
+    // var geometry = new THREE.Geometry();
+    // geometry.vertices.push(
+    //     new THREE.Vector3( -10,  10, 0 ),
+    //     new THREE.Vector3( -10, -10, 0 ),
+    //     new THREE.Vector3(  10, -10, 0 )
+    // );
+    // geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
 
 
