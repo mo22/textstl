@@ -168,7 +168,7 @@ function toTHREE(triangles) {
     return geometry;
 }
 
-function glyphToShape(glyph) {
+function glyphToShapes(glyph) {
     glyph.getMetrics();
     let shapes = [];
     let holes = [];
@@ -229,7 +229,7 @@ function glyphToShape(glyph) {
 }
 
 
-function glyphToShape2(glyph) {
+function glyphToShapes2(glyph) {
     let shapes = [];
     // holes ?!
     var shape = new THREE.Shape();
@@ -252,13 +252,26 @@ function glyphToShape2(glyph) {
     return shapes;
 }
 
+
+
 function test(font, string, size, width) {
-    // let glyph = font.charToGlyph('l');
-    let glyph = font.charToGlyph('8');
+    let allShapes = [];
+    font.forEachGlyph(string, 0, 0, size, {}, (glyph, x, y) => {
+        let shapes = glyphToShapes(glyph);
+        console.log('X', shapes[0].curves[0].curves);
+        // translate?!
+        allShapes = allShapes.concat(shapes);
+    });
+
+
+
+
+    let glyph = font.charToGlyph('l');
+    // let glyph = font.charToGlyph('8');
     // let glyph = font.charToGlyph('i');
 
-    let shape = glyphToShape(glyph);
-    // let shape = glyphToShape2(glyph);
+    let shape = glyphToShapes(glyph);
+    // let shape = glyphToShapes2(glyph);
 
     let geometry = new THREE.ExtrudeGeometry(shape, {
         // curveSegments: 120, // spline subdivision, does not work?!
