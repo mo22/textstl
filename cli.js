@@ -4,9 +4,9 @@ import base64font from './Damion-Regular.js';
 
 async function main() {
   let font = TextMaker.loadFont(base64arraybuffer.decode(base64font));
-  let geometry = stringToGeometry(font, 'Hallo', 72, 20);
-  let stl = geometryToSTL(geometry);
-  System._nodeRequire('fs').writeFileSync('test.stl', Buffer.from(base64arraybuffer.encode(data), 'base64'));
+  let geometry = TextMaker.stringToGeometry(font, 'Hallo', 72, 20);
+  let stl = TextMaker.geometryToSTL(geometry);
+  System._nodeRequire('fs').writeFileSync('test.stl', Buffer.from(base64arraybuffer.encode(stl), 'base64'));
 }
 
 main().catch(console.error);
