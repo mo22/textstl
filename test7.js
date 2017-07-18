@@ -255,34 +255,46 @@ function glyphToShapes2(glyph) {
 
 
 function test(font, string, size, width) {
-    let allShapes = [];
+    let geometries = [];
     font.forEachGlyph(string, 0, 0, size, {}, (glyph, x, y) => {
         let shapes = glyphToShapes(glyph);
-        console.log('X', shapes[0].curves[0].curves);
-        // translate?!
-        allShapes = allShapes.concat(shapes);
+        let geometry = new THREE.ExtrudeGeometry(shapes, {
+            steps: 1,
+            amount: width,
+            bevelEnabled: false,
+        });
+        geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / font.unitsPerEm * size, 1 / font.unitsPerEm * size, 1) );
+        geometry.applyMatrix( new THREE.Matrix4().makeTranslation(x, y, 0) );
+        geometries.push(geometry);
     });
 
-
-
-
-    let glyph = font.charToGlyph('l');
-    // let glyph = font.charToGlyph('8');
-    // let glyph = font.charToGlyph('i');
-
-    let shape = glyphToShapes(glyph);
-    // let shape = glyphToShapes2(glyph);
-
-    let geometry = new THREE.ExtrudeGeometry(shape, {
-        // curveSegments: 120, // spline subdivision, does not work?!
-        steps: 1, // steps along extrusion
-        amount: 1, // depth
-        bevelEnabled: false,
-    });
-
-    geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / font.unitsPerEm * 100, 1 / font.unitsPerEm * 100, 10) );
-
+    let geometry = geometries[0];
+    for (let i of geometries.slice(1)) geometry.merge(i);
     return geometry;
+
+    // // geometries
+
+
+
+
+
+    // let glyph = font.charToGlyph('l');
+    // // let glyph = font.charToGlyph('8');
+    // // let glyph = font.charToGlyph('i');
+
+    // let shape = glyphToShapes(glyph);
+    // // let shape = glyphToShapes2(glyph);
+
+    // let geometry = new THREE.ExtrudeGeometry(shape, {
+    //     // curveSegments: 120, // spline subdivision, does not work?!
+    //     steps: 1, // steps along extrusion
+    //     amount: 1, // depth
+    //     bevelEnabled: false,
+    // });
+
+    // geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / font.unitsPerEm * 100, 1 / font.unitsPerEm * 100, 10) );
+
+    // return geometry;
 /*
     font.forEachGlyph(string, 0, 0, size, options, (glyph, x, y) => {
         let metrics = glyph.getMetrics();
