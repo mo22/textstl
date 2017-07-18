@@ -21,7 +21,8 @@
       "Doodle3D/ThreeJS-export-STL": "github:Doodle3D/ThreeJS-export-STL@^0.0.1",
       "base64-arraybuffer": "npm:base64-arraybuffer@^0.1.5",
       "opentype.js": "npm:opentype.js@^0.7.3",
-      "three": "npm:three@^0.86.0"
+      "three": "npm:three@^0.86.0",
+      "three-orbit-controls": "npm:three-orbit-controls@^82.1.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

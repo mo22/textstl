@@ -2,8 +2,7 @@ import * as TextMaker from './TextMaker.js';
 import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
 import base64font from './Damion-Regular.js';
-// global.THREE = THREE;
-// import 'three/examples/js/controls/OrbitControls.js';
+import OrbitControls from 'three-orbit-controls';
 
 async function main() {
   let font = TextMaker.loadFont(base64arraybuffer.decode(base64font));
@@ -24,10 +23,10 @@ async function main() {
     );
   scene.add(camera);
 
-  // const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  // controls.maxPolarAngle = Math.PI * 0.5;
-  // controls.minDistance = 1000;
-  // controls.maxDistance = 7500;
+  const controls = new (OrbitControls(THREE))(camera, renderer.domElement);
+  controls.maxPolarAngle = Math.PI * 0.5;
+  controls.minDistance = 1000;
+  controls.maxDistance = 7500;
 
   const pointLight = new THREE.PointLight(0xFFFFFF);
   pointLight.position.x = 10;
@@ -40,8 +39,11 @@ async function main() {
   });
 
   const mesh = new THREE.Mesh(geometry, material);
+  console.log('ASD1', geometry.boundingBox);
+  geometry.computeBoundingBox();
+  console.log('ASD2', geometry.boundingBox);
   mesh.position.z = -200;
-  mesh.position.x = -400;
+  //mesh.position.x = -100;
 
   scene.add(mesh);
 
