@@ -19,7 +19,6 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "base64-arraybuffer": "npm:base64-arraybuffer@0.1.5",
     "core-js": "npm:core-js@1.2.7",
-    "earcut": "npm:earcut@2.1.1",
     "opentype.js": "npm:opentype.js@0.7.2",
     "three": "npm:three@0.86.0",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -78,9 +77,6 @@ System.config({
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1"
-    },
-    "npm:earcut@2.1.1": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
