@@ -168,99 +168,109 @@ function toTHREE(triangles) {
     return geometry;
 }
 
-function glyphToShape(glyph, scale) {
+function glyphToShape(glyph) {
     glyph.getMetrics();
-    let shape = new THREE.Shape();
-    // let metrics = glyph.getMetrics();
-    // let fontScale = 1 / glyph.font.unitsPerEm * size;
-    // let segments = [];
-    // let holes = [];
+    let shapes = [];
+    let holes = [];
     for (let contour of glyph.getContours()) {
+        let path = new THREE.Path();
+        let prev = null;
+        let curr = contour[contour.length - 1];
+        let next = contour[0];
+        if (curr.onCurve) {
+            path.moveTo(curr.x, curr.y);
+        } else {
+            if (next.onCurve) {
+                path.moveTo(next.x, next.y);
+            } else {
+                const start = {x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5};
+                path.moveTo(start.x, start.y);
+            }
+        }
+        for (let i = 0; i < contour.length; ++i) {
+            prev = curr;
+            curr = next;
+            next = contour[(i + 1) % contour.length];
+            if (curr.onCurve) {
+                path.lineTo(curr.x, curr.y);
+            } else {
+                let prev2 = prev;
+                let next2 = next;
+                if (!prev.onCurve) {
+                    prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5 };
+                    path.lineTo(prev2.x, prev2.y);
+                }
+                if (!next.onCurve) {
+                    next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5 };
+                }
+                path.lineTo(prev2.x, prev2.y);
+                path.quadraticCurveTo(curr.x, curr.y, next2.x, next2.y);
+            }
+        }
+        path.closePath();
         var sum = 0;
         var lastPoint = contour[contour.length-1];
         for (let point of contour) {
             sum += (lastPoint.x - point.x) * (point.y + lastPoint.y);
             lastPoint = point;
         }
-        // console.log('ASD', glyph);
-        // tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
-        let path = new THREE.Path();
-        path.moveTo(contour[0].x * scale, contour[0].y * scale);
-        for (var i=1; i<contour.length; i++) {
-            let curr = contour[i];
-            let prev = contour[i-1];
-            let next = contour[(i+1) % contour.length];
-            if (curr.onCurve) {
-                path.lineTo(curr.x * scale, curr.y * scale);
-            } else {
-                let prev2 = prev;
-                let next2 = next;
-                if (!prev.onCurve) {
-                    prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5 };
-                    path.lineTo(prev2.x * scale, prev2.y * scale);
-                }
-                if (!next.onCurve) {
-                    next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5 };
-                }
-                path.lineTo(prev2.x * scale, prev2.y * scale);
-                path.quadraticCurveTo(curr.x * scale, curr.y * scale, next2.x * scale, next2.y * scale);
-            }
-        }
-        path.closePath();
-
         if (sum > 0) {
-            console.log('HOLE');
-            // holes.push(contour);
+            holes.push(path);
         } else {
-            console.log('SEGMENT');
+            let shape = new THREE.Shape();
             shape.add(path);
+            shapes.push(shape);
         }
     }
-    return shape;
+    for (let shape of shapes) {
+        shape.holes = holes;
+    }
+    return shapes;
+}
+
+
+function glyphToShape2(glyph) {
+    let shapes = [];
+    var shape = new THREE.Shape();
+    console.log(glyph.getPath());
+    for (let cmd of glyph.getPath().commands) {
+        if (cmd.type == 'M') {
+            shape.moveTo(cmd.x, cmd.y);
+        } else if (cmd.type == 'L') {
+            shape.lineTo(cmd.x, cmd.y);
+        } else if (cmd.type == 'Q') {
+            shape.quadraticCurveTo(cmd.x1, cmd.y1, cmd.x, cmd.y);
+        } else if (cmd.type == 'Z') {
+            shape.closePath();
+            shapes.push(shape);
+            shape = new THREE.Shape();
+        } else {
+            console.log('CMD', cmd);
+        }
+    }
+    if (shape.curves.length > 0) shapes.push(shape);
+    return shapes;
 }
 
 function test(font, string, size, width) {
-    let glyph = font.charToGlyph('l');
-    let shape = glyphToShape(glyph, 1 / font.unitsPerEm * 100);
+    // let glyph = font.charToGlyph('l');
+    let glyph = font.charToGlyph('8');
+    // let glyph = font.charToGlyph('i');
 
-    // let path = new THREE.Shape(); // Shape? ShapePath?
-    // path.moveTo(0, 0);
-    // path.lineTo(0, 200);
-    // path.lineTo(200, 200);
-    // path.lineTo(200, 0);
-    // // path.lineTo(0, 0);
-
-    // let hole = new THREE.Path();
-    // hole.moveTo(20, 20);
-    // hole.lineTo(180, 20);
-    // hole.lineTo(180, 180);
-    // hole.lineTo(20, 180);
-    // // hole.lineTo(20, 20);
-    // path.holes.push(hole);
-
-    // // console.log('XX', THREE.QuadraticBezier);
+    // let shape = glyphToShape(glyph);
+    let shape = glyphToShape2(glyph);
 
     let geometry = new THREE.ExtrudeGeometry(shape, {
         curveSegments: 120, // spline subdivision, does not work?!
         steps: 1, // steps along extrusion
-        amount: 10, // depth
+        amount: 1, // depth
         bevelEnabled: false,
-        // bevelThickness: 1,
-        // bevelSize: 1,
-        // bevelSegments: 1
     });
 
+    // geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / font.unitsPerEm * 100, 1 / font.unitsPerEm * 100, 10) );
+
     return geometry;
-
-    // path.quadraticCurveTo( cpx1, cpy1, cpx, cpy );
-
-    // for ( var i2 = 1; i2 <= divisions; i2 ++ ) {
-    // var t = i2 / divisions;
-    // QuadraticBezier( t, cpx0, cpx1, cpx );
-    // QuadraticBezier( t, cpy0, cpy1, cpy );
-    // }
-
-
+/*
     font.forEachGlyph(string, 0, 0, size, options, (glyph, x, y) => {
         let metrics = glyph.getMetrics();
         let fontScale = 1 / font.unitsPerEm * size;
@@ -279,10 +289,8 @@ function test(font, string, size, width) {
                 segments.push(contour);
             }
         }
-
-
-
     });
+*/
 }
 
 async function main() {
