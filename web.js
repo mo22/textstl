@@ -8,11 +8,8 @@ import base64font from './Damion-Regular.js';
 async function main() {
   let font = TextMaker.loadFont(base64arraybuffer.decode(base64font));
   let geometry = TextMaker.stringToGeometry(font, 'Hallo', 72, 20);
-
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-  console.log('X', document.querySelector('#surface'));
-  console.log('X', document.querySelector('#surface').offsetWidth);
-  renderer.setSize(1024, 768);
+  renderer.setSize(document.querySelector('#surface').offsetWidth, document.querySelector('#surface').offsetHeight);
   renderer.setPixelRatio( window.devicePixelRatio );
   document.querySelector('#surface').appendChild(renderer.domElement);
 
@@ -44,6 +41,7 @@ async function main() {
 
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.z = -200;
+  mesh.position.x = -400;
 
   scene.add(mesh);
 
