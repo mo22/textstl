@@ -2,7 +2,6 @@ import * as opentype from 'opentype.js';
 import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
 import * as exportSTL from 'Doodle3D/ThreeJS-export-STL';
-import base64font from './Damion-Regular.js';
 
 // jspm run test7
 // -> use three.js shapes for font
@@ -94,7 +93,7 @@ function glyphToShapes2(glyph) {
     return shapes;
 }
 
-function stringToGeometry(font, string, size, width) {
+export function stringToGeometry(font, string, size, width) {
     let geometries = [];
     font.forEachGlyph(string, 0, 0, size, {}, (glyph, x, y) => {
         let shapes = glyphToShapes(glyph);
@@ -113,15 +112,15 @@ function stringToGeometry(font, string, size, width) {
     return geometry;
 }
 
-async function main() {
-    let font = opentype.parse(base64arraybuffer.decode(base64font));
-    // let triangles = extrudeGlyph(font, font.charToGlyph('8'), 72, 20);
-    // let triangles = extrudeString(font, 'Hallo', 72, 20, {dx: 0});
-    // let geometry = toTHREE(triangles);
-    let geometry = stringToGeometry(font, 'Hallo', 72, 20);
-    geometry.type = 'Geometry'; // bug in exportSTL?
-    let data = exportSTL.fromGeometry(geometry);
-    System._nodeRequire('fs').writeFileSync('test.stl', Buffer.from(base64arraybuffer.encode(data), 'base64'));
+export function loadFont(arg) {
+    let font = opentype.parse(arg);
+    return font;
 }
 
-main().catch(console.error);
+export function geometryToSTL(geometry) {
+    let tmp = geometry.type;
+    geometry.type = 'Geometry'; // bug in exportSTL?
+    let data = exportSTL.fromGeometry(geometry);
+    geometry.type = tmp;
+    return data;
+}
