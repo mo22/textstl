@@ -168,28 +168,83 @@ function toTHREE(triangles) {
     return geometry;
 }
 
+function glyphToShape(glyph, scale) {
+    glyph.getMetrics();
+    let shape = new THREE.Shape();
+    // let metrics = glyph.getMetrics();
+    // let fontScale = 1 / glyph.font.unitsPerEm * size;
+    // let segments = [];
+    // let holes = [];
+    for (let contour of glyph.getContours()) {
+        var sum = 0;
+        var lastPoint = contour[contour.length-1];
+        for (let point of contour) {
+            sum += (lastPoint.x - point.x) * (point.y + lastPoint.y);
+            lastPoint = point;
+        }
+        // console.log('ASD', glyph);
+        // tags: 1 = PATH_POINT, 2 = CUBIC_POINT, 0 = QUADRATIC_POINT
+        let path = new THREE.Path();
+        path.moveTo(contour[0].x * scale, contour[0].y * scale);
+        for (var i=1; i<contour.length; i++) {
+            let curr = contour[i];
+            let prev = contour[i-1];
+            let next = contour[(i+1) % contour.length];
+            if (curr.onCurve) {
+                path.lineTo(curr.x * scale, curr.y * scale);
+            } else {
+                let prev2 = prev;
+                let next2 = next;
+                if (!prev.onCurve) {
+                    prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5 };
+                    path.lineTo(prev2.x * scale, prev2.y * scale);
+                }
+                if (!next.onCurve) {
+                    next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5 };
+                }
+                path.lineTo(prev2.x * scale, prev2.y * scale);
+                path.quadraticCurveTo(curr.x * scale, curr.y * scale, next2.x * scale, next2.y * scale);
+            }
+        }
+        path.closePath();
+
+        if (sum > 0) {
+            console.log('HOLE');
+            // holes.push(contour);
+        } else {
+            console.log('SEGMENT');
+            shape.add(path);
+        }
+    }
+    return shape;
+}
+
 function test(font, string, size, width) {
-    let path = new THREE.Shape(); // Shape? ShapePath?
-    path.moveTo(0, 0);
-    path.lineTo(0, 200);
-    path.lineTo(200, 200);
-    path.lineTo(200, 0);
-    // path.lineTo(0, 0);
+    let glyph = font.charToGlyph('l');
+    let shape = glyphToShape(glyph, 1 / font.unitsPerEm * 100);
 
-    let hole = new THREE.Path();
-    hole.moveTo(20, 20);
-    hole.lineTo(180, 20);
-    hole.lineTo(180, 180);
-    hole.lineTo(20, 180);
-    // hole.lineTo(20, 20);
-    path.holes.push(hole);
+    // let path = new THREE.Shape(); // Shape? ShapePath?
+    // path.moveTo(0, 0);
+    // path.lineTo(0, 200);
+    // path.lineTo(200, 200);
+    // path.lineTo(200, 0);
+    // // path.lineTo(0, 0);
 
-    // console.log('XX', THREE.QuadraticBezier);
+    // let hole = new THREE.Path();
+    // hole.moveTo(20, 20);
+    // hole.lineTo(180, 20);
+    // hole.lineTo(180, 180);
+    // hole.lineTo(20, 180);
+    // // hole.lineTo(20, 20);
+    // path.holes.push(hole);
 
-    let geometry = new THREE.ExtrudeGeometry(path, {
-        steps: 2,
-        amount: 16,
-        // bevelEnabled: true,
+    // // console.log('XX', THREE.QuadraticBezier);
+
+    let geometry = new THREE.ExtrudeGeometry(shape, {
+        curveSegments: 120, // spline subdivision, does not work?!
+        steps: 1, // steps along extrusion
+        amount: 10, // depth
+        bevelEnabled: false,
         // bevelThickness: 1,
         // bevelSize: 1,
         // bevelSegments: 1
@@ -206,25 +261,28 @@ function test(font, string, size, width) {
     // }
 
 
-    // font.forEachGlyph(string, 0, 0, size, options, (glyph, x, y) => {
-    //     let metrics = glyph.getMetrics();
-    //     let fontScale = 1 / font.unitsPerEm * size;
-    //     let segments = [];
-    //     let holes = [];
-    //     for (let contour of glyph.getContours()) {
-    //         var sum = 0;
-    //         var lastPoint = contour[contour.length-1];
-    //         for (let point of contour) {
-    //             sum += (lastPoint.x - point.x) * (point.y + lastPoint.y);
-    //             lastPoint = point;
-    //         }
-    //         if (sum > 0) {
-    //             holes.push(contour);
-    //         } else {
-    //             segments.push(contour);
-    //         }
-    //     }
-    // });
+    font.forEachGlyph(string, 0, 0, size, options, (glyph, x, y) => {
+        let metrics = glyph.getMetrics();
+        let fontScale = 1 / font.unitsPerEm * size;
+        let segments = [];
+        let holes = [];
+        for (let contour of glyph.getContours()) {
+            var sum = 0;
+            var lastPoint = contour[contour.length-1];
+            for (let point of contour) {
+                sum += (lastPoint.x - point.x) * (point.y + lastPoint.y);
+                lastPoint = point;
+            }
+            if (sum > 0) {
+                holes.push(contour);
+            } else {
+                segments.push(contour);
+            }
+        }
+
+
+
+    });
 }
 
 async function main() {
