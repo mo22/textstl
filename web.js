@@ -2,13 +2,18 @@ import * as TextMaker from './TextMaker.js';
 import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
 import base64font from './Damion-Regular.js';
+// global.THREE = THREE;
+// import 'three/examples/js/controls/OrbitControls.js';
 
 async function main() {
   let font = TextMaker.loadFont(base64arraybuffer.decode(base64font));
   let geometry = TextMaker.stringToGeometry(font, 'Hallo', 72, 20);
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  console.log('X', document.querySelector('#surface'));
+  console.log('X', document.querySelector('#surface').offsetWidth);
   renderer.setSize(1024, 768);
+  renderer.setPixelRatio( window.devicePixelRatio );
   document.querySelector('#surface').appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
@@ -22,6 +27,11 @@ async function main() {
     );
   scene.add(camera);
 
+  // const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  // controls.maxPolarAngle = Math.PI * 0.5;
+  // controls.minDistance = 1000;
+  // controls.maxDistance = 7500;
+
   const pointLight = new THREE.PointLight(0xFFFFFF);
   pointLight.position.x = 10;
   pointLight.position.y = 50;
@@ -33,21 +43,17 @@ async function main() {
   });
 
   const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.z = -3000;
+  mesh.position.z = -200;
 
   scene.add(mesh);
 
-  renderer.render(scene, camera);
+  function render() {
+    requestAnimationFrame(render);
+    camera.lookAt(scene.position);
+    renderer.render(scene, camera);
+  }
 
-
-
-
-  // per-char offset
-  // per-char size?
-  // kerning offset
-  // let stl = TextMaker.geometryToSTL(geometry);
-
-
+  render();
 }
 
 main().catch(console.error);
