@@ -7,6 +7,12 @@ import OrbitControls from 'three-orbit-controls';
 async function main() {
   let font = TextMaker.loadFont(base64arraybuffer.decode(base64font));
   let geometry = TextMaker.stringToGeometry(font, 'Hallo', 72, 20);
+
+  // center
+  geometry.computeBoundingBox();
+  geometry.applyMatrix( new THREE.Matrix4().makeTranslation(-geometry.boundingBox.max.x/2, -geometry.boundingBox.max.y/2, 0) );
+
+  // render
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(document.querySelector('#surface').offsetWidth, document.querySelector('#surface').offsetHeight);
   renderer.setPixelRatio( window.devicePixelRatio );
@@ -24,9 +30,9 @@ async function main() {
   scene.add(camera);
 
   const controls = new (OrbitControls(THREE))(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.5;
-  controls.minDistance = 1000;
-  controls.maxDistance = 7500;
+  controls.maxPolarAngle = Math.PI * 1;
+  controls.minDistance = 500;
+  controls.maxDistance = 1500;
 
   const pointLight = new THREE.PointLight(0xFFFFFF);
   pointLight.position.x = 10;
@@ -42,8 +48,8 @@ async function main() {
   console.log('ASD1', geometry.boundingBox);
   geometry.computeBoundingBox();
   console.log('ASD2', geometry.boundingBox);
-  mesh.position.z = -200;
-  //mesh.position.x = -100;
+  // mesh.position.z = -200;
+  // mesh.position.x = -100;
 
   scene.add(mesh);
 
