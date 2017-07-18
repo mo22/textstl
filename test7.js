@@ -171,19 +171,28 @@ function toTHREE(triangles) {
 function test(font, string, size, width) {
     let path = new THREE.Shape(); // Shape? ShapePath?
     path.moveTo(0, 0);
-    path.lineTo(100, 0);
-    path.lineTo(100, 100);
-    path.lineTo(0, 100);
+    path.lineTo(0, 200);
+    path.lineTo(200, 200);
+    path.lineTo(200, 0);
+    // path.lineTo(0, 0);
 
-    console.log('XX', THREE.QuadraticBezier);
+    let hole = new THREE.Path();
+    hole.moveTo(20, 20);
+    hole.lineTo(180, 20);
+    hole.lineTo(180, 180);
+    hole.lineTo(20, 180);
+    // hole.lineTo(20, 20);
+    path.holes.push(hole);
+
+    // console.log('XX', THREE.QuadraticBezier);
 
     let geometry = new THREE.ExtrudeGeometry(path, {
         steps: 2,
         amount: 16,
-        bevelEnabled: true,
-        bevelThickness: 1,
-        bevelSize: 1,
-        bevelSegments: 1
+        // bevelEnabled: true,
+        // bevelThickness: 1,
+        // bevelSize: 1,
+        // bevelSegments: 1
     });
 
     return geometry;
