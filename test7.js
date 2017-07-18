@@ -2,14 +2,14 @@ import * as opentype from 'opentype.js';
 import * as base64arraybuffer from 'base64-arraybuffer';
 import earcut from 'earcut';
 import * as THREE from 'three';
-// import exportSTL from 'threejs-export-stl';
 import * as exportSTL from 'Doodle3D/ThreeJS-export-STL';
 
-// load font from google fonts?
-// https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
-// access-control is da.
-// https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
+// jspm run test7
 
+// -> dynamically download fonts: https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
+// -> live preview? / html version?
+// test CSG
+// https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
 // jspm install github:Doodle3D/ThreeJS-export-STL
 // ./node_modules/.bin/jspm run test7.js
 
