@@ -12,6 +12,20 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-preset-latest": "^6.24.1"
+    "babel-preset-latest": "^6.24.1",
+    "jspm": "^0.16.53"
+  },
+  "jspm": {
+    "dependencies": {
+      "Doodle3D/ThreeJS-export-STL": "github:Doodle3D/ThreeJS-export-STL@^0.0.1",
+      "earcut": "npm:earcut@^2.1.1",
+      "opentype.js": "npm:opentype.js@^0.7.2",
+      "three": "npm:three@^0.86.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
   }
 }

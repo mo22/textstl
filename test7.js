@@ -1,11 +1,16 @@
 import * as opentype from 'opentype.js';
 import earcut from 'earcut';
 import * as THREE from 'three';
+// import exportSTL from 'threejs-export-stl';
+import * as exportSTL from 'Doodle3D/ThreeJS-export-STL';
 
 // load font from google fonts?
 // https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
 // access-control is da.
 // https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
+
+// jspm install github:Doodle3D/ThreeJS-export-STL
+// ./node_modules/.bin/jspm run test7.js
 
 function loadFont(file) {
     return new Promise((resolve, reject) => {
@@ -170,13 +175,44 @@ function toTHREE(triangles) {
     return geometry;
 }
 
+function test(font, string, size, width) {
+    font.forEachGlyph(string, 0, 0, size, options, (glyph, x, y) => {
+        let metrics = glyph.getMetrics();
+        let fontScale = 1 / font.unitsPerEm * size;
+
+        let segments = [];
+        let holes = [];
+        for (let contour of glyph.getContours()) {
+            var sum = 0;
+            var lastPoint = contour[contour.length-1];
+            for (let point of contour) {
+                sum += (lastPoint.x - point.x) * (point.y + lastPoint.y);
+                lastPoint = point;
+            }
+            if (sum > 0) {
+                holes.push(contour);
+            } else {
+                segments.push(contour);
+            }
+        }
+
+
+    });
+}
+
 // THREE to binary STL...
 
 async function main() {
     let font = await loadFont('Damion-Regular.ttf');
     // let triangles = extrudeGlyph(font, font.charToGlyph('8'), 72, 20);
     let triangles = extrudeString(font, 'Hallo', 72, 20, {dx: 0});
-    saveSTL(triangles, 'test.stl');
+    let geometry = toTHREE(triangles);
+
+    let data = exportSTL.fromGeometry(geometry);
+    console.log('data', data);
+
+
+    // saveSTL(triangles, 'test.stl');
 }
 
 main().catch(console.error);
