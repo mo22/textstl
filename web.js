@@ -54,6 +54,11 @@ async function main() {
   }
 
   render();
+
+  // input for text
+  // select for font?
+  
+  // click -> download stl
 }
 
 main().catch(console.error);
