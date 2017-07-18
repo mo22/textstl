@@ -231,8 +231,8 @@ function glyphToShape(glyph) {
 
 function glyphToShape2(glyph) {
     let shapes = [];
+    // holes ?!
     var shape = new THREE.Shape();
-    console.log(glyph.getPath());
     for (let cmd of glyph.getPath().commands) {
         if (cmd.type == 'M') {
             shape.moveTo(cmd.x, cmd.y);
@@ -257,17 +257,17 @@ function test(font, string, size, width) {
     let glyph = font.charToGlyph('8');
     // let glyph = font.charToGlyph('i');
 
-    // let shape = glyphToShape(glyph);
-    let shape = glyphToShape2(glyph);
+    let shape = glyphToShape(glyph);
+    // let shape = glyphToShape2(glyph);
 
     let geometry = new THREE.ExtrudeGeometry(shape, {
-        curveSegments: 120, // spline subdivision, does not work?!
+        // curveSegments: 120, // spline subdivision, does not work?!
         steps: 1, // steps along extrusion
         amount: 1, // depth
         bevelEnabled: false,
     });
 
-    // geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / font.unitsPerEm * 100, 1 / font.unitsPerEm * 100, 10) );
+    geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / font.unitsPerEm * 100, 1 / font.unitsPerEm * 100, 10) );
 
     return geometry;
 /*
