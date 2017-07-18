@@ -31,8 +31,8 @@ async function main() {
 
   const controls = new (OrbitControls(THREE))(camera, renderer.domElement);
   controls.maxPolarAngle = Math.PI * 1;
-  controls.minDistance = 500;
-  controls.maxDistance = 1500;
+  controls.minDistance = 200;
+  controls.maxDistance = 1000;
 
   const pointLight = new THREE.PointLight(0xFFFFFF);
   pointLight.position.x = 10;
@@ -41,16 +41,10 @@ async function main() {
   scene.add(pointLight);
 
   const material =new THREE.MeshLambertMaterial({
-    color: 0xCC0000
+    color: 0xCCCCCC
   });
 
   const mesh = new THREE.Mesh(geometry, material);
-  console.log('ASD1', geometry.boundingBox);
-  geometry.computeBoundingBox();
-  console.log('ASD2', geometry.boundingBox);
-  // mesh.position.z = -200;
-  // mesh.position.x = -100;
-
   scene.add(mesh);
 
   function render() {
