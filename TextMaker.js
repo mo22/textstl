@@ -3,6 +3,8 @@ import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
 import * as exportSTL from 'Doodle3D/ThreeJS-export-STL';
 
+// jspm install npm:opentype.js npm:base64-arraybuffer npm:three github:Doodle3D/ThreeJS-export-STL
+
 // jspm run test7
 // -> use three.js shapes for font
 // -> dynamically download fonts: https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
