@@ -1,4 +1,5 @@
 import * as opentype from 'opentype.js';
+import * as base64arraybuffer from 'base64-arraybuffer';
 import earcut from 'earcut';
 import * as THREE from 'three';
 // import exportSTL from 'threejs-export-stl';
@@ -12,11 +13,7 @@ import * as exportSTL from 'Doodle3D/ThreeJS-export-STL';
 // jspm install github:Doodle3D/ThreeJS-export-STL
 // ./node_modules/.bin/jspm run test7.js
 
-function loadFont(file) {
-    return new Promise((resolve, reject) => {
-        opentype.load('Damion-Regular.ttf', (err, font) => err ? reject(err) : resolve(font));
-    });
-}
+import base64font from './Damion-Regular.js';
 
 function extrudeGlyph(font, glyph, size, width) {
     let metrics = glyph.getMetrics();
@@ -203,13 +200,15 @@ function test(font, string, size, width) {
 // THREE to binary STL...
 
 async function main() {
-    let font = await loadFont('Damion-Regular.ttf');
+    let font = opentype.parse(base64arraybuffer.decode(base64font));
     // let triangles = extrudeGlyph(font, font.charToGlyph('8'), 72, 20);
     let triangles = extrudeString(font, 'Hallo', 72, 20, {dx: 0});
     let geometry = toTHREE(triangles);
 
     let data = exportSTL.fromGeometry(geometry);
     console.log('data', data);
+
+    System._nodeRequire('fs').writeFileSync('test.stl', Buffer.from(base64arraybuffer.encode(data), 'base64'));
 
 
     // saveSTL(triangles, 'test.stl');

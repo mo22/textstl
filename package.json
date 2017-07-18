@@ -6,6 +6,7 @@
   "author": "Moritz Moeller <mm@mxs.de>",
   "license": "MIT",
   "dependencies": {
+    "base64-arraybuffer": "^0.1.5",
     "earcut": "^2.1.1",
     "opentype.js": "^0.7.2",
     "three": "^0.86.0"
@@ -18,6 +19,7 @@
   "jspm": {
     "dependencies": {
       "Doodle3D/ThreeJS-export-STL": "github:Doodle3D/ThreeJS-export-STL@^0.0.1",
+      "base64-arraybuffer": "npm:base64-arraybuffer@^0.1.5",
       "earcut": "npm:earcut@^2.1.1",
       "opentype.js": "npm:opentype.js@^0.7.2",
       "three": "npm:three@^0.86.0"

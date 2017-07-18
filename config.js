@@ -17,6 +17,7 @@ System.config({
     "Doodle3D/ThreeJS-export-STL": "github:Doodle3D/ThreeJS-export-STL@0.0.1",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
+    "base64-arraybuffer": "npm:base64-arraybuffer@0.1.5",
     "core-js": "npm:core-js@1.2.7",
     "earcut": "npm:earcut@2.1.1",
     "opentype.js": "npm:opentype.js@0.7.2",
