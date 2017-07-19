@@ -18,6 +18,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "base64-arraybuffer": "npm:base64-arraybuffer@0.1.5",
     "core-js": "npm:core-js@1.2.7",
+    "fs": "github:jspm/nodelibs-fs@0.1.2",
     "google-fonts-complete": "npm:google-fonts-complete@1.1.1",
     "opentype.js": "npm:opentype.js@0.7.3",
     "optimist": "npm:optimist@0.6.1",
