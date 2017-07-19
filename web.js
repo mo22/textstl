@@ -115,8 +115,86 @@ async function main() {
 
 class ThreePreview extends React.Component {
 
+  componentWillUnmount() {
+    this.active = false;
+  }
+
+  componentDidMount() {
+    this.active = true;
+
+    this.scene = new THREE.Scene();
+
+    this.camera = new THREE.PerspectiveCamera(
+      75, // 45? 75?
+      this.surface.offsetWidth / this.surface.offsetHeight,
+      0.1,
+      10000
+    );
+    this.scene.add(this.camera);
+    camera.position.z = 200;
+
+    var lights = [];
+    lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 0 ].position.set( 0, 200, 0 );
+    lights[ 1 ].position.set( 100, 200, 100 );
+    lights[ 2 ].position.set( - 100, - 200, - 100 );
+    this.scene.add( lights[ 0 ] );
+    this.scene.add( lights[ 1 ] );
+    this.scene.add( lights[ 2 ] );
+
+    // this.pointLight = new THREE.PointLight(0xffffff);
+    // this.pointLight.position.x = 10;
+    // this.pointLight.position.y = 50;
+    // this.pointLight.position.z = 130;
+    // this.scene.add(this.pointLight);
+
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true
+    });
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(this.surface.offsetWidth, this.surface.offsetHeight);
+    this.renderer.setClearColor(0xffffff, 1);
+    this.surface.appendChild(this.renderer.domElement);
+
+    this.controls = new (OrbitControls(THREE))(this.camera, this.renderer.domElement);
+    this.controls.maxPolarAngle = Math.PI * 1;
+    this.controls.minDistance = 200;
+    this.controls.maxDistance = 1000;
+
+    this.setGeometry(new THREE.SphereGeometry(60, 8, 8));
+
+    this.renderFrame();
+  }
+
+  setGeometry(geometry) {
+    if (this.mesh) this.scene.remove(this.mesh);
+    this.geometry = geometry;
+    this.mesh = new THREE.Mesh(
+      this.geometry,
+      new THREE.MeshPhongMaterial({
+        color: 0x156289,
+        emissive: 0x072534,
+        side: THREE.DoubleSide,
+        shading: THREE.FlatShading,
+      })
+    );
+    this.scene.add(this.mesh);
+  }
+
+  renderFrame() {
+    if (!this.active) return;
+    requestAnimationFrame(::this.renderFrame);
+    this.mesh.rotation.x += 0.005;
+    this.mesh.rotation.y += 0.005;
+    this.camera.lookAt(this.scene.position);
+    this.renderer.render(this.scene, this.camera);
+  }
+
   setSurface(div) {
-    console.log('div', div);
+    this.surface = div;
+    if (!div) return;
   }
 
   render() {
@@ -141,7 +219,7 @@ class Main extends React.Component {
   }
 }
 
-ReactDOM.render(<Main />, document.querySelector('BODY'));
+ReactDOM.render(<Main />, document.querySelector('#root'));
 
 
 
