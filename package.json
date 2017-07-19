@@ -24,6 +24,7 @@
       "google-fonts-complete": "npm:google-fonts-complete@^1.1.1",
       "opentype.js": "npm:opentype.js@^0.7.3",
       "optimist": "npm:optimist@^0.6.1",
+      "request": "npm:request@^2.81.0",
       "three": "npm:three@^0.86.0",
       "three-orbit-controls": "npm:three-orbit-controls@^82.1.0"
     },
@@ -32,5 +33,6 @@
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4"
     }
-  }
+  },
+  "dependencies": {}
 }
