@@ -22,8 +22,11 @@
       "base64-arraybuffer": "npm:base64-arraybuffer@^0.1.5",
       "fs": "github:jspm/nodelibs-fs@^0.1.2",
       "google-fonts-complete": "npm:google-fonts-complete@^1.1.1",
+      "jspm-loader-jsx": "npm:jspm-loader-jsx@^0.0.7",
       "opentype.js": "npm:opentype.js@^0.7.3",
       "optimist": "npm:optimist@^0.6.1",
+      "react": "npm:react@^15.6.1",
+      "react-dom": "npm:react-dom@^15.6.1",
       "request": "npm:request@^2.81.0",
       "three": "npm:three@^0.86.0",
       "three-orbit-controls": "npm:three-orbit-controls@^82.1.0"

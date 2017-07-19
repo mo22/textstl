@@ -1,8 +1,23 @@
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+
 import * as TextMaker from './TextMaker.js';
 import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
 import googleFonts from 'google-fonts-complete';
 import OrbitControls from 'three-orbit-controls';
+
+// font kerning
+// click to download stl
+// text field: text
+// select field: font
+// text field: size / width ?
+
+
+
+
+
+
 
 async function generateGeometry(options) {
   let fontSize = options.fontSize || 72;
@@ -34,6 +49,9 @@ async function generateGeometry(options) {
   // kerning!
   return geometry;
 }
+
+
+
 
 
 
@@ -93,4 +111,18 @@ async function main() {
 
 }
 
-main().catch(console.error);
+//main().catch(console.error);
+
+
+class Main extends React.Component {
+  render() {
+    return (
+      <h1>test</h1>
+    );
+  }
+}
+
+ReactDOM.render(<Main />, document.querySelector('BODY'));
+
+
+
