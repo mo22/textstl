@@ -95,9 +95,12 @@ function glyphToShapes2(glyph) {
     return shapes;
 }
 
-export function stringToGeometry(font, string, size, width) {
+export function stringToGeometry(font, string, size, width, kerning=0) {
     let geometries = [];
+    var dx = 0;
     font.forEachGlyph(string, 0, 0, size, {}, (glyph, x, y) => {
+        x += dx;
+        dx += (typeof kerning == 'number') ? kerning : kerning.shift();
         let shapes = glyphToShapes(glyph);
         let geometry = new THREE.ExtrudeGeometry(shapes, {
             steps: 1,
