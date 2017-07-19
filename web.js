@@ -129,8 +129,8 @@ class ThreePreview extends React.Component {
     if (!this.active) return;
     requestAnimationFrame(::this.renderFrame);
     this.frame++;
-    this.mesh.rotation.x = 0.005 * this.frame;
-    this.mesh.rotation.y = 0.002 * this.frame;
+    // this.mesh.rotation.x = 0.005 * this.frame;
+    // this.mesh.rotation.y = 0.002 * this.frame;
     this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);
   }
