@@ -9,7 +9,7 @@ async function main() {
   let fontSize = optimist.argv.fontSize || 72;
   let width = optimist.argv.width || 20;
   let text = optimist.argv.text || 'Hello';
-  let kerning = optimist.argv.kerning || 0;
+  let kerning = optimist.argv.kerning || '0';
   let output = optimist.argv.output || 'output.stl';
   let fontName = optimist.argv.font || 'Damion';
   let fontVariant = optimist.argv.fontVariant || 'normal'; // 'italic?'
@@ -33,7 +33,7 @@ async function main() {
   });
 
   let font = TextMaker.loadFont(base64arraybuffer.decode(fontData.toString('base64')));
-  let geometry = TextMaker.stringToGeometry(font, text, fontSize, width);
+  let geometry = TextMaker.stringToGeometry(font, text, fontSize, width, kerning);
 
   let stl = TextMaker.geometryToSTL(geometry);
 
