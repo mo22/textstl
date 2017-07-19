@@ -2,6 +2,7 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
+    "stage": 0,
     "optional": [
       "runtime",
       "optimisation.modules.system"
@@ -10,6 +11,1317 @@ System.config({
   paths: {
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
+  },
+
+  depCache: {
+    "web.js": [
+      "babel-runtime/helpers/get",
+      "babel-runtime/helpers/inherits",
+      "babel-runtime/helpers/create-class",
+      "babel-runtime/helpers/class-call-check",
+      "babel-runtime/regenerator",
+      "babel-runtime/core-js/object/keys",
+      "react",
+      "react-dom",
+      "./TextMaker.js",
+      "base64-arraybuffer",
+      "three",
+      "google-fonts-complete",
+      "three-orbit-controls"
+    ],
+    "npm:base64-arraybuffer@0.1.5.js": [
+      "npm:base64-arraybuffer@0.1.5/lib/base64-arraybuffer"
+    ],
+    "npm:babel-runtime@5.8.38/helpers/get.js": [
+      "../core-js/object/get-own-property-descriptor"
+    ],
+    "npm:babel-runtime@5.8.38/helpers/inherits.js": [
+      "../core-js/object/create",
+      "../core-js/object/set-prototype-of"
+    ],
+    "npm:babel-runtime@5.8.38/helpers/create-class.js": [
+      "../core-js/object/define-property"
+    ],
+    "npm:babel-runtime@5.8.38/regenerator.js": [
+      "./regenerator/index"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/object/keys.js": [
+      "core-js/library/fn/object/keys"
+    ],
+    "npm:react@15.6.1.js": [
+      "npm:react@15.6.1/react.js"
+    ],
+    "npm:react-dom@15.6.1.js": [
+      "npm:react-dom@15.6.1/index.js"
+    ],
+    "TextMaker.js": [
+      "babel-runtime/core-js/get-iterator",
+      "opentype.js",
+      "base64-arraybuffer",
+      "three",
+      "Doodle3D/ThreeJS-export-STL"
+    ],
+    "npm:three-orbit-controls@82.1.0.js": [
+      "npm:three-orbit-controls@82.1.0/index.js"
+    ],
+    "npm:three@0.86.0.js": [
+      "npm:three@0.86.0/build/three.js"
+    ],
+    "npm:google-fonts-complete@1.1.1.js": [
+      "npm:google-fonts-complete@1.1.1/./google-fonts.json!systemjs-json"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/object/get-own-property-descriptor.js": [
+      "core-js/library/fn/object/get-own-property-descriptor"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/object/create.js": [
+      "core-js/library/fn/object/create"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/object/set-prototype-of.js": [
+      "core-js/library/fn/object/set-prototype-of"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/object/define-property.js": [
+      "core-js/library/fn/object/define-property"
+    ],
+    "npm:babel-runtime@5.8.38/regenerator/index.js": [
+      "./runtime"
+    ],
+    "npm:core-js@1.2.7/library/fn/object/keys.js": [
+      "../../modules/es6.object.keys",
+      "../../modules/$.core"
+    ],
+    "npm:react@15.6.1/react.js": [
+      "./lib/React"
+    ],
+    "npm:react-dom@15.6.1/index.js": [
+      "./lib/ReactDOM"
+    ],
+    "npm:opentype.js@0.7.3.js": [
+      "npm:opentype.js@0.7.3/dist/opentype.js"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/get-iterator.js": [
+      "core-js/library/fn/get-iterator"
+    ],
+    "github:Doodle3D/ThreeJS-export-STL@0.0.1.js": [
+      "github:Doodle3D/ThreeJS-export-STL@0.0.1/index.js"
+    ],
+    "npm:three@0.86.0/build/three.js": [
+      "buffer",
+      "process"
+    ],
+    "npm:core-js@1.2.7/library/fn/object/get-own-property-descriptor.js": [
+      "../../modules/$",
+      "../../modules/es6.object.get-own-property-descriptor"
+    ],
+    "npm:core-js@1.2.7/library/fn/object/create.js": [
+      "../../modules/$"
+    ],
+    "npm:core-js@1.2.7/library/fn/object/set-prototype-of.js": [
+      "../../modules/es6.object.set-prototype-of",
+      "../../modules/$.core"
+    ],
+    "npm:core-js@1.2.7/library/fn/object/define-property.js": [
+      "../../modules/$"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.object.keys.js": [
+      "./$.to-object",
+      "./$.object-sap"
+    ],
+    "npm:core-js@1.2.7/library/fn/get-iterator.js": [
+      "../modules/web.dom.iterable",
+      "../modules/es6.string.iterator",
+      "../modules/core.get-iterator"
+    ],
+    "npm:babel-runtime@5.8.38/regenerator/runtime.js": [
+      "../core-js/symbol",
+      "../core-js/object/create",
+      "../core-js/object/set-prototype-of",
+      "../core-js/promise",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/React.js": [
+      "object-assign",
+      "./ReactBaseClasses",
+      "./ReactChildren",
+      "./ReactDOMFactories",
+      "./ReactElement",
+      "./ReactPropTypes",
+      "./ReactVersion",
+      "./createClass",
+      "./onlyChild",
+      "./lowPriorityWarning",
+      "./canDefineProperty",
+      "./ReactElementValidator",
+      "process"
+    ],
+    "npm:opentype.js@0.7.3/dist/opentype.js": [
+      "@empty",
+      "buffer",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOM.js": [
+      "./ReactDOMComponentTree",
+      "./ReactDefaultInjection",
+      "./ReactMount",
+      "./ReactReconciler",
+      "./ReactUpdates",
+      "./ReactVersion",
+      "./findDOMNode",
+      "./getHostComponentFromComposite",
+      "./renderSubtreeIntoContainer",
+      "fbjs/lib/warning",
+      "fbjs/lib/ExecutionEnvironment",
+      "./ReactInstrumentation",
+      "./ReactDOMUnknownPropertyHook",
+      "./ReactDOMNullInputValuePropHook",
+      "./ReactDOMInvalidARIAHook",
+      "process"
+    ],
+    "github:jspm/nodelibs-buffer@0.1.1.js": [
+      "github:jspm/nodelibs-buffer@0.1.1/index"
+    ],
+    "github:jspm/nodelibs-process@0.1.2.js": [
+      "github:jspm/nodelibs-process@0.1.2/index"
+    ],
+    "npm:object-assign@4.1.1.js": [
+      "npm:object-assign@4.1.1/index"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.object.get-own-property-descriptor.js": [
+      "./$.to-iobject",
+      "./$.object-sap"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.object.set-prototype-of.js": [
+      "./$.export",
+      "./$.set-proto"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.to-object.js": [
+      "./$.defined"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.object-sap.js": [
+      "./$.export",
+      "./$.core",
+      "./$.fails"
+    ],
+    "npm:core-js@1.2.7/library/modules/web.dom.iterable.js": [
+      "./es6.array.iterator",
+      "./$.iterators"
+    ],
+    "npm:core-js@1.2.7/library/modules/core.get-iterator.js": [
+      "./$.an-object",
+      "./core.get-iterator-method",
+      "./$.core"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.string.iterator.js": [
+      "./$.string-at",
+      "./$.iter-define"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/symbol.js": [
+      "core-js/library/fn/symbol"
+    ],
+    "npm:babel-runtime@5.8.38/core-js/promise.js": [
+      "core-js/library/fn/promise"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDefaultInjection.js": [
+      "./ARIADOMPropertyConfig",
+      "./BeforeInputEventPlugin",
+      "./ChangeEventPlugin",
+      "./DefaultEventPluginOrder",
+      "./EnterLeaveEventPlugin",
+      "./HTMLDOMPropertyConfig",
+      "./ReactComponentBrowserEnvironment",
+      "./ReactDOMComponent",
+      "./ReactDOMComponentTree",
+      "./ReactDOMEmptyComponent",
+      "./ReactDOMTreeTraversal",
+      "./ReactDOMTextComponent",
+      "./ReactDefaultBatchingStrategy",
+      "./ReactEventListener",
+      "./ReactInjection",
+      "./ReactReconcileTransaction",
+      "./SVGDOMPropertyConfig",
+      "./SelectEventPlugin",
+      "./SimpleEventPlugin"
+    ],
+    "npm:react-dom@15.6.1/lib/getHostComponentFromComposite.js": [
+      "./ReactNodeTypes"
+    ],
+    "npm:react-dom@15.6.1/lib/renderSubtreeIntoContainer.js": [
+      "./ReactMount"
+    ],
+    "npm:react@15.6.1/lib/ReactDOMFactories.js": [
+      "./ReactElement",
+      "./ReactElementValidator",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/lowPriorityWarning.js": [
+      "process"
+    ],
+    "npm:react@15.6.1/lib/canDefineProperty.js": [
+      "process"
+    ],
+    "npm:fbjs@0.8.12/lib/warning.js": [
+      "./emptyFunction",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactInstrumentation.js": [
+      "./ReactDebugTool",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactBaseClasses.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./ReactNoopUpdateQueue",
+      "./canDefineProperty",
+      "fbjs/lib/emptyObject",
+      "fbjs/lib/invariant",
+      "./lowPriorityWarning",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactChildren.js": [
+      "./PooledClass",
+      "./ReactElement",
+      "fbjs/lib/emptyFunction",
+      "./traverseAllChildren"
+    ],
+    "npm:react@15.6.1/lib/ReactElement.js": [
+      "object-assign",
+      "./ReactCurrentOwner",
+      "fbjs/lib/warning",
+      "./canDefineProperty",
+      "./ReactElementSymbol",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactPropTypes.js": [
+      "./ReactElement",
+      "prop-types/factory"
+    ],
+    "npm:react@15.6.1/lib/createClass.js": [
+      "./ReactBaseClasses",
+      "./ReactElement",
+      "./ReactNoopUpdateQueue",
+      "create-react-class/factory"
+    ],
+    "npm:react@15.6.1/lib/onlyChild.js": [
+      "./reactProdInvariant",
+      "./ReactElement",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactElementValidator.js": [
+      "./ReactCurrentOwner",
+      "./ReactComponentTreeHook",
+      "./ReactElement",
+      "./checkReactTypeSpec",
+      "./canDefineProperty",
+      "./getIteratorFn",
+      "fbjs/lib/warning",
+      "./lowPriorityWarning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMComponentTree.js": [
+      "./reactProdInvariant",
+      "./DOMProperty",
+      "./ReactDOMComponentFlags",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactMount.js": [
+      "./reactProdInvariant",
+      "./DOMLazyTree",
+      "./DOMProperty",
+      "react/lib/React",
+      "./ReactBrowserEventEmitter",
+      "react/lib/ReactCurrentOwner",
+      "./ReactDOMComponentTree",
+      "./ReactDOMContainerInfo",
+      "./ReactDOMFeatureFlags",
+      "./ReactFeatureFlags",
+      "./ReactInstanceMap",
+      "./ReactInstrumentation",
+      "./ReactMarkupChecksum",
+      "./ReactReconciler",
+      "./ReactUpdateQueue",
+      "./ReactUpdates",
+      "fbjs/lib/emptyObject",
+      "./instantiateReactComponent",
+      "fbjs/lib/invariant",
+      "./setInnerHTML",
+      "./shouldUpdateReactComponent",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactReconciler.js": [
+      "./ReactRef",
+      "./ReactInstrumentation",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactUpdates.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./CallbackQueue",
+      "./PooledClass",
+      "./ReactFeatureFlags",
+      "./ReactReconciler",
+      "./Transaction",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/findDOMNode.js": [
+      "./reactProdInvariant",
+      "react/lib/ReactCurrentOwner",
+      "./ReactDOMComponentTree",
+      "./ReactInstanceMap",
+      "./getHostComponentFromComposite",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMUnknownPropertyHook.js": [
+      "./DOMProperty",
+      "./EventPluginRegistry",
+      "react/lib/ReactComponentTreeHook",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMNullInputValuePropHook.js": [
+      "react/lib/ReactComponentTreeHook",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMInvalidARIAHook.js": [
+      "./DOMProperty",
+      "react/lib/ReactComponentTreeHook",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "github:jspm/nodelibs-buffer@0.1.1/index.js": [
+      "buffer"
+    ],
+    "github:jspm/nodelibs-process@0.1.2/index.js": [
+      "process"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.to-iobject.js": [
+      "./$.iobject",
+      "./$.defined"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.export.js": [
+      "./$.global",
+      "./$.core",
+      "./$.ctx"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.set-proto.js": [
+      "./$",
+      "./$.is-object",
+      "./$.an-object",
+      "./$.ctx"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.array.iterator.js": [
+      "./$.add-to-unscopables",
+      "./$.iter-step",
+      "./$.iterators",
+      "./$.to-iobject",
+      "./$.iter-define"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.an-object.js": [
+      "./$.is-object"
+    ],
+    "npm:core-js@1.2.7/library/modules/core.get-iterator-method.js": [
+      "./$.classof",
+      "./$.wks",
+      "./$.iterators",
+      "./$.core"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.string-at.js": [
+      "./$.to-integer",
+      "./$.defined"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.iter-define.js": [
+      "./$.library",
+      "./$.export",
+      "./$.redefine",
+      "./$.hide",
+      "./$.has",
+      "./$.iterators",
+      "./$.iter-create",
+      "./$.set-to-string-tag",
+      "./$",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/fn/symbol.js": [
+      "./symbol/index"
+    ],
+    "npm:core-js@1.2.7/library/fn/promise.js": [
+      "../modules/es6.object.to-string",
+      "../modules/es6.string.iterator",
+      "../modules/web.dom.iterable",
+      "../modules/es6.promise",
+      "../modules/$.core"
+    ],
+    "npm:react-dom@15.6.1/lib/EnterLeaveEventPlugin.js": [
+      "./EventPropagators",
+      "./ReactDOMComponentTree",
+      "./SyntheticMouseEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/HTMLDOMPropertyConfig.js": [
+      "./DOMProperty"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactInjection.js": [
+      "./DOMProperty",
+      "./EventPluginHub",
+      "./EventPluginUtils",
+      "./ReactComponentEnvironment",
+      "./ReactEmptyComponent",
+      "./ReactBrowserEventEmitter",
+      "./ReactHostComponent",
+      "./ReactUpdates"
+    ],
+    "npm:prop-types@15.5.10/factory.js": [
+      "./factoryWithTypeCheckers"
+    ],
+    "npm:react-dom@15.6.1/lib/DOMLazyTree.js": [
+      "./DOMNamespaces",
+      "./setInnerHTML",
+      "./createMicrosoftUnsafeLocalFunction",
+      "./setTextContent"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactMarkupChecksum.js": [
+      "./adler32"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMEmptyComponent.js": [
+      "object-assign",
+      "./DOMLazyTree",
+      "./ReactDOMComponentTree"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactComponentBrowserEnvironment.js": [
+      "./DOMChildrenOperations",
+      "./ReactDOMIDOperations",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactReconcileTransaction.js": [
+      "object-assign",
+      "./CallbackQueue",
+      "./PooledClass",
+      "./ReactBrowserEventEmitter",
+      "./ReactInputSelection",
+      "./ReactInstrumentation",
+      "./Transaction",
+      "./ReactUpdateQueue",
+      "process"
+    ],
+    "npm:fbjs@0.8.12/lib/emptyObject.js": [
+      "process"
+    ],
+    "npm:fbjs@0.8.12/lib/invariant.js": [
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactBrowserEventEmitter.js": [
+      "object-assign",
+      "./EventPluginRegistry",
+      "./ReactEventEmitterMixin",
+      "./ViewportMetrics",
+      "./getVendorPrefixedEventName",
+      "./isEventSupported",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMContainerInfo.js": [
+      "./validateDOMNesting",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactRef.js": [
+      "./ReactOwner",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/BeforeInputEventPlugin.js": [
+      "./EventPropagators",
+      "fbjs/lib/ExecutionEnvironment",
+      "./FallbackCompositionState",
+      "./SyntheticCompositionEvent",
+      "./SyntheticInputEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/ChangeEventPlugin.js": [
+      "./EventPluginHub",
+      "./EventPropagators",
+      "fbjs/lib/ExecutionEnvironment",
+      "./ReactDOMComponentTree",
+      "./ReactUpdates",
+      "./SyntheticEvent",
+      "./inputValueTracking",
+      "./getEventTarget",
+      "./isEventSupported",
+      "./isTextInputElement",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMComponent.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./AutoFocusUtils",
+      "./CSSPropertyOperations",
+      "./DOMLazyTree",
+      "./DOMNamespaces",
+      "./DOMProperty",
+      "./DOMPropertyOperations",
+      "./EventPluginHub",
+      "./EventPluginRegistry",
+      "./ReactBrowserEventEmitter",
+      "./ReactDOMComponentFlags",
+      "./ReactDOMComponentTree",
+      "./ReactDOMInput",
+      "./ReactDOMOption",
+      "./ReactDOMSelect",
+      "./ReactDOMTextarea",
+      "./ReactInstrumentation",
+      "./ReactMultiChild",
+      "./ReactServerRenderingTransaction",
+      "fbjs/lib/emptyFunction",
+      "./escapeTextContentForBrowser",
+      "fbjs/lib/invariant",
+      "./isEventSupported",
+      "fbjs/lib/shallowEqual",
+      "./inputValueTracking",
+      "./validateDOMNesting",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMTreeTraversal.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMTextComponent.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./DOMChildrenOperations",
+      "./DOMLazyTree",
+      "./ReactDOMComponentTree",
+      "./escapeTextContentForBrowser",
+      "fbjs/lib/invariant",
+      "./validateDOMNesting",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDefaultBatchingStrategy.js": [
+      "object-assign",
+      "./ReactUpdates",
+      "./Transaction",
+      "fbjs/lib/emptyFunction"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactEventListener.js": [
+      "object-assign",
+      "fbjs/lib/EventListener",
+      "fbjs/lib/ExecutionEnvironment",
+      "./PooledClass",
+      "./ReactDOMComponentTree",
+      "./ReactUpdates",
+      "./getEventTarget",
+      "fbjs/lib/getUnboundedScrollPosition",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/SelectEventPlugin.js": [
+      "./EventPropagators",
+      "fbjs/lib/ExecutionEnvironment",
+      "./ReactDOMComponentTree",
+      "./ReactInputSelection",
+      "./SyntheticEvent",
+      "fbjs/lib/getActiveElement",
+      "./isTextInputElement",
+      "fbjs/lib/shallowEqual"
+    ],
+    "npm:react-dom@15.6.1/lib/SimpleEventPlugin.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/EventListener",
+      "./EventPropagators",
+      "./ReactDOMComponentTree",
+      "./SyntheticAnimationEvent",
+      "./SyntheticClipboardEvent",
+      "./SyntheticEvent",
+      "./SyntheticFocusEvent",
+      "./SyntheticKeyboardEvent",
+      "./SyntheticMouseEvent",
+      "./SyntheticDragEvent",
+      "./SyntheticTouchEvent",
+      "./SyntheticTransitionEvent",
+      "./SyntheticUIEvent",
+      "./SyntheticWheelEvent",
+      "fbjs/lib/emptyFunction",
+      "./getEventCharCode",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactNodeTypes.js": [
+      "./reactProdInvariant",
+      "react/lib/React",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDebugTool.js": [
+      "./ReactInvalidSetStateWarningHook",
+      "./ReactHostOperationHistoryHook",
+      "react/lib/ReactComponentTreeHook",
+      "fbjs/lib/ExecutionEnvironment",
+      "fbjs/lib/performanceNow",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactNoopUpdateQueue.js": [
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/PooledClass.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/traverseAllChildren.js": [
+      "./reactProdInvariant",
+      "./ReactCurrentOwner",
+      "./ReactElementSymbol",
+      "./getIteratorFn",
+      "fbjs/lib/invariant",
+      "./KeyEscapeUtils",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:create-react-class@15.6.0/factory.js": [
+      "object-assign",
+      "fbjs/lib/emptyObject",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/checkReactTypeSpec.js": [
+      "./reactProdInvariant",
+      "./ReactPropTypeLocationNames",
+      "./ReactPropTypesSecret",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "./ReactComponentTreeHook",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactComponentTreeHook.js": [
+      "./reactProdInvariant",
+      "./ReactCurrentOwner",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/DOMProperty.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactUpdateQueue.js": [
+      "./reactProdInvariant",
+      "react/lib/ReactCurrentOwner",
+      "./ReactInstanceMap",
+      "./ReactInstrumentation",
+      "./ReactUpdates",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/instantiateReactComponent.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./ReactCompositeComponent",
+      "./ReactEmptyComponent",
+      "./ReactHostComponent",
+      "react/lib/getNextDebugID",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/setInnerHTML.js": [
+      "fbjs/lib/ExecutionEnvironment",
+      "./DOMNamespaces",
+      "./createMicrosoftUnsafeLocalFunction",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/CallbackQueue.js": [
+      "./reactProdInvariant",
+      "./PooledClass",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/PooledClass.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/Transaction.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/EventPluginRegistry.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:buffer@5.0.6.js": [
+      "npm:buffer@5.0.6/index.js"
+    ],
+    "npm:process@0.11.10.js": [
+      "npm:process@0.11.10/browser.js"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.iobject.js": [
+      "./$.cof"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.ctx.js": [
+      "./$.a-function"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.classof.js": [
+      "./$.cof",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.wks.js": [
+      "./$.shared",
+      "./$.uid",
+      "./$.global"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.redefine.js": [
+      "./$.hide"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.hide.js": [
+      "./$",
+      "./$.property-desc",
+      "./$.descriptors"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.iter-create.js": [
+      "./$",
+      "./$.property-desc",
+      "./$.set-to-string-tag",
+      "./$.hide",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.set-to-string-tag.js": [
+      "./$",
+      "./$.has",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/fn/symbol/index.js": [
+      "../../modules/es6.symbol",
+      "../../modules/es6.object.to-string",
+      "../../modules/$.core"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticMouseEvent.js": [
+      "./SyntheticUIEvent",
+      "./ViewportMetrics",
+      "./getEventModifierState"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactEventEmitterMixin.js": [
+      "./EventPluginHub"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticCompositionEvent.js": [
+      "./SyntheticEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticInputEvent.js": [
+      "./SyntheticEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/inputValueTracking.js": [
+      "./ReactDOMComponentTree"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticAnimationEvent.js": [
+      "./SyntheticEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticClipboardEvent.js": [
+      "./SyntheticEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticFocusEvent.js": [
+      "./SyntheticUIEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticKeyboardEvent.js": [
+      "./SyntheticUIEvent",
+      "./getEventCharCode",
+      "./getEventKey",
+      "./getEventModifierState"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticDragEvent.js": [
+      "./SyntheticMouseEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticTouchEvent.js": [
+      "./SyntheticUIEvent",
+      "./getEventModifierState"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticTransitionEvent.js": [
+      "./SyntheticEvent"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticUIEvent.js": [
+      "./SyntheticEvent",
+      "./getEventTarget"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticWheelEvent.js": [
+      "./SyntheticMouseEvent"
+    ],
+    "npm:fbjs@0.8.12/lib/performanceNow.js": [
+      "./performance"
+    ],
+    "npm:react-dom@15.6.1/lib/FallbackCompositionState.js": [
+      "object-assign",
+      "./PooledClass",
+      "./getTextContentAccessor"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.promise.js": [
+      "./$",
+      "./$.library",
+      "./$.global",
+      "./$.ctx",
+      "./$.classof",
+      "./$.export",
+      "./$.is-object",
+      "./$.an-object",
+      "./$.a-function",
+      "./$.strict-new",
+      "./$.for-of",
+      "./$.set-proto",
+      "./$.same-value",
+      "./$.wks",
+      "./$.species-constructor",
+      "./$.microtask",
+      "./$.descriptors",
+      "./$.redefine-all",
+      "./$.set-to-string-tag",
+      "./$.set-species",
+      "./$.core",
+      "./$.iter-detect",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/DOMChildrenOperations.js": [
+      "./DOMLazyTree",
+      "./Danger",
+      "./ReactDOMComponentTree",
+      "./ReactInstrumentation",
+      "./createMicrosoftUnsafeLocalFunction",
+      "./setInnerHTML",
+      "./setTextContent",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMIDOperations.js": [
+      "./DOMChildrenOperations",
+      "./ReactDOMComponentTree",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactServerRenderingTransaction.js": [
+      "object-assign",
+      "./PooledClass",
+      "./Transaction",
+      "./ReactInstrumentation",
+      "./ReactServerUpdateQueue",
+      "process"
+    ],
+    "npm:fbjs@0.8.12/lib/EventListener.js": [
+      "./emptyFunction",
+      "process"
+    ],
+    "npm:react@15.6.1/lib/ReactPropTypeLocationNames.js": [
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/EventPropagators.js": [
+      "./EventPluginHub",
+      "./EventPluginUtils",
+      "./accumulateInto",
+      "./forEachAccumulated",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/EventPluginHub.js": [
+      "./reactProdInvariant",
+      "./EventPluginRegistry",
+      "./EventPluginUtils",
+      "./ReactErrorUtils",
+      "./accumulateInto",
+      "./forEachAccumulated",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/EventPluginUtils.js": [
+      "./reactProdInvariant",
+      "./ReactErrorUtils",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactComponentEnvironment.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactHostComponent.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:prop-types@15.5.10/factoryWithTypeCheckers.js": [
+      "fbjs/lib/emptyFunction",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "./lib/ReactPropTypesSecret",
+      "./checkPropTypes",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/setTextContent.js": [
+      "fbjs/lib/ExecutionEnvironment",
+      "./escapeTextContentForBrowser",
+      "./setInnerHTML"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactInputSelection.js": [
+      "./ReactDOMSelection",
+      "fbjs/lib/containsNode",
+      "fbjs/lib/focusNode",
+      "fbjs/lib/getActiveElement"
+    ],
+    "npm:react-dom@15.6.1/lib/isEventSupported.js": [
+      "fbjs/lib/ExecutionEnvironment"
+    ],
+    "npm:react-dom@15.6.1/lib/getVendorPrefixedEventName.js": [
+      "fbjs/lib/ExecutionEnvironment"
+    ],
+    "npm:react-dom@15.6.1/lib/validateDOMNesting.js": [
+      "object-assign",
+      "fbjs/lib/emptyFunction",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactOwner.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/SyntheticEvent.js": [
+      "object-assign",
+      "./PooledClass",
+      "fbjs/lib/emptyFunction",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/AutoFocusUtils.js": [
+      "./ReactDOMComponentTree",
+      "fbjs/lib/focusNode"
+    ],
+    "npm:react-dom@15.6.1/lib/CSSPropertyOperations.js": [
+      "./CSSProperty",
+      "fbjs/lib/ExecutionEnvironment",
+      "./ReactInstrumentation",
+      "fbjs/lib/camelizeStyleName",
+      "./dangerousStyleValue",
+      "fbjs/lib/hyphenateStyleName",
+      "fbjs/lib/memoizeStringOnly",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/DOMPropertyOperations.js": [
+      "./DOMProperty",
+      "./ReactDOMComponentTree",
+      "./ReactInstrumentation",
+      "./quoteAttributeValueForBrowser",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMSelect.js": [
+      "object-assign",
+      "./LinkedValueUtils",
+      "./ReactDOMComponentTree",
+      "./ReactUpdates",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMInput.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./DOMPropertyOperations",
+      "./LinkedValueUtils",
+      "./ReactDOMComponentTree",
+      "./ReactUpdates",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMOption.js": [
+      "object-assign",
+      "react/lib/React",
+      "./ReactDOMComponentTree",
+      "./ReactDOMSelect",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMTextarea.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "./LinkedValueUtils",
+      "./ReactDOMComponentTree",
+      "./ReactUpdates",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactMultiChild.js": [
+      "./reactProdInvariant",
+      "./ReactComponentEnvironment",
+      "./ReactInstanceMap",
+      "./ReactInstrumentation",
+      "react/lib/ReactCurrentOwner",
+      "./ReactReconciler",
+      "./ReactChildReconciler",
+      "fbjs/lib/emptyFunction",
+      "./flattenChildren",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactInvalidSetStateWarningHook.js": [
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactCompositeComponent.js": [
+      "./reactProdInvariant",
+      "object-assign",
+      "react/lib/React",
+      "./ReactComponentEnvironment",
+      "react/lib/ReactCurrentOwner",
+      "./ReactErrorUtils",
+      "./ReactInstanceMap",
+      "./ReactInstrumentation",
+      "./ReactNodeTypes",
+      "./ReactReconciler",
+      "./checkReactTypeSpec",
+      "fbjs/lib/emptyObject",
+      "fbjs/lib/invariant",
+      "fbjs/lib/shallowEqual",
+      "./shouldUpdateReactComponent",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:buffer@5.0.6/index.js": [
+      "base64-js",
+      "ieee754"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.shared.js": [
+      "./$.global"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.descriptors.js": [
+      "./$.fails"
+    ],
+    "npm:core-js@1.2.7/library/modules/es6.symbol.js": [
+      "./$",
+      "./$.global",
+      "./$.has",
+      "./$.descriptors",
+      "./$.export",
+      "./$.redefine",
+      "./$.fails",
+      "./$.shared",
+      "./$.set-to-string-tag",
+      "./$.uid",
+      "./$.wks",
+      "./$.keyof",
+      "./$.get-names",
+      "./$.enum-keys",
+      "./$.is-array",
+      "./$.an-object",
+      "./$.to-iobject",
+      "./$.property-desc",
+      "./$.library"
+    ],
+    "npm:fbjs@0.8.12/lib/performance.js": [
+      "./ExecutionEnvironment"
+    ],
+    "npm:react-dom@15.6.1/lib/getEventKey.js": [
+      "./getEventCharCode"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.for-of.js": [
+      "./$.ctx",
+      "./$.iter-call",
+      "./$.is-array-iter",
+      "./$.an-object",
+      "./$.to-length",
+      "./core.get-iterator-method"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.species-constructor.js": [
+      "./$.an-object",
+      "./$.a-function",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.set-species.js": [
+      "./$.core",
+      "./$",
+      "./$.descriptors",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.redefine-all.js": [
+      "./$.redefine"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.iter-detect.js": [
+      "./$.wks"
+    ],
+    "npm:fbjs@0.8.12/lib/containsNode.js": [
+      "./isTextNode"
+    ],
+    "npm:fbjs@0.8.12/lib/camelizeStyleName.js": [
+      "./camelize"
+    ],
+    "npm:fbjs@0.8.12/lib/hyphenateStyleName.js": [
+      "./hyphenate"
+    ],
+    "npm:react-dom@15.6.1/lib/quoteAttributeValueForBrowser.js": [
+      "./escapeTextContentForBrowser"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.microtask.js": [
+      "./$.global",
+      "./$.task",
+      "./$.cof",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactErrorUtils.js": [
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/getTextContentAccessor.js": [
+      "fbjs/lib/ExecutionEnvironment"
+    ],
+    "npm:react-dom@15.6.1/lib/Danger.js": [
+      "./reactProdInvariant",
+      "./DOMLazyTree",
+      "fbjs/lib/ExecutionEnvironment",
+      "fbjs/lib/createNodesFromMarkup",
+      "fbjs/lib/emptyFunction",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactServerUpdateQueue.js": [
+      "./ReactUpdateQueue",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/accumulateInto.js": [
+      "./reactProdInvariant",
+      "fbjs/lib/invariant",
+      "process"
+    ],
+    "npm:prop-types@15.5.10/checkPropTypes.js": [
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "./lib/ReactPropTypesSecret",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactDOMSelection.js": [
+      "fbjs/lib/ExecutionEnvironment",
+      "./getNodeForCharacterOffset",
+      "./getTextContentAccessor"
+    ],
+    "npm:react-dom@15.6.1/lib/dangerousStyleValue.js": [
+      "./CSSProperty",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/LinkedValueUtils.js": [
+      "./reactProdInvariant",
+      "./ReactPropTypesSecret",
+      "prop-types/factory",
+      "react/lib/React",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactChildReconciler.js": [
+      "./ReactReconciler",
+      "./instantiateReactComponent",
+      "./KeyEscapeUtils",
+      "./shouldUpdateReactComponent",
+      "./traverseAllChildren",
+      "fbjs/lib/warning",
+      "react/lib/ReactComponentTreeHook",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/checkReactTypeSpec.js": [
+      "./reactProdInvariant",
+      "./ReactPropTypeLocationNames",
+      "./ReactPropTypesSecret",
+      "fbjs/lib/invariant",
+      "fbjs/lib/warning",
+      "react/lib/ReactComponentTreeHook",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/flattenChildren.js": [
+      "./KeyEscapeUtils",
+      "./traverseAllChildren",
+      "fbjs/lib/warning",
+      "react/lib/ReactComponentTreeHook",
+      "process"
+    ],
+    "npm:base64-js@1.2.1.js": [
+      "npm:base64-js@1.2.1/index.js"
+    ],
+    "npm:ieee754@1.1.8.js": [
+      "npm:ieee754@1.1.8/index.js"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.keyof.js": [
+      "./$",
+      "./$.to-iobject"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.iter-call.js": [
+      "./$.an-object"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.get-names.js": [
+      "./$.to-iobject",
+      "./$"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.enum-keys.js": [
+      "./$"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.is-array.js": [
+      "./$.cof"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.is-array-iter.js": [
+      "./$.iterators",
+      "./$.wks"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.to-length.js": [
+      "./$.to-integer"
+    ],
+    "npm:fbjs@0.8.12/lib/isTextNode.js": [
+      "./isNode"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.task.js": [
+      "./$.ctx",
+      "./$.invoke",
+      "./$.html",
+      "./$.dom-create",
+      "./$.global",
+      "./$.cof",
+      "process"
+    ],
+    "npm:fbjs@0.8.12/lib/createNodesFromMarkup.js": [
+      "./ExecutionEnvironment",
+      "./createArrayFromMixed",
+      "./getMarkupWrap",
+      "./invariant",
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/ReactPropTypeLocationNames.js": [
+      "process"
+    ],
+    "npm:react-dom@15.6.1/lib/traverseAllChildren.js": [
+      "./reactProdInvariant",
+      "react/lib/ReactCurrentOwner",
+      "./ReactElementSymbol",
+      "./getIteratorFn",
+      "fbjs/lib/invariant",
+      "./KeyEscapeUtils",
+      "fbjs/lib/warning",
+      "process"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.dom-create.js": [
+      "./$.is-object",
+      "./$.global"
+    ],
+    "npm:core-js@1.2.7/library/modules/$.html.js": [
+      "./$.global"
+    ],
+    "npm:fbjs@0.8.12/lib/createArrayFromMixed.js": [
+      "./invariant",
+      "process"
+    ],
+    "npm:fbjs@0.8.12/lib/getMarkupWrap.js": [
+      "./ExecutionEnvironment",
+      "./invariant",
+      "process"
+    ]
   },
 
   map: {

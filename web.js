@@ -113,11 +113,30 @@ async function main() {
 
 //main().catch(console.error);
 
+class ThreePreview extends React.Component {
+
+  setSurface(div) {
+    console.log('div', div);
+  }
+
+  render() {
+    return (
+      <div style={{width:1024, height:768}} ref={::this.setSurface} />
+    );
+  }
+
+}
+
+
+
 
 class Main extends React.Component {
   render() {
     return (
-      <h1>test</h1>
+      <div>
+        <h1>test</h1>
+        <ThreePreview />
+      </div>
     );
   }
 }
