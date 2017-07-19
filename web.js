@@ -113,6 +113,14 @@ async function main() {
 
 //main().catch(console.error);
 
+
+
+
+
+
+
+
+
 class ThreePreview extends React.Component {
 
   componentWillUnmount() {
@@ -122,6 +130,8 @@ class ThreePreview extends React.Component {
   componentDidMount() {
     this.active = true;
 
+    this.frame = 0;
+
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(
@@ -130,8 +140,8 @@ class ThreePreview extends React.Component {
       0.1,
       10000
     );
+    this.camera.position.z = 200;
     this.scene.add(this.camera);
-    camera.position.z = 200;
 
     var lights = [];
     lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
@@ -163,9 +173,19 @@ class ThreePreview extends React.Component {
     this.controls.minDistance = 200;
     this.controls.maxDistance = 1000;
 
-    this.setGeometry(new THREE.SphereGeometry(60, 8, 8));
+    if (this.props.geometry) {
+      this.setGeometry(this.props.geometry);
+    } else {
+      this.setGeometry(new THREE.SphereGeometry(60, 8, 8));
+    }
 
     this.renderFrame();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.geometry != this.props.geometry) {
+      this.setGeometry(this.props.geometry);
+    }
   }
 
   setGeometry(geometry) {
@@ -186,8 +206,9 @@ class ThreePreview extends React.Component {
   renderFrame() {
     if (!this.active) return;
     requestAnimationFrame(::this.renderFrame);
-    this.mesh.rotation.x += 0.005;
-    this.mesh.rotation.y += 0.005;
+    this.frame++;
+    this.mesh.rotation.x = 0.005 * this.frame;
+    this.mesh.rotation.y = 0.002 * this.frame;
     this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);
   }
@@ -208,12 +229,44 @@ class ThreePreview extends React.Component {
 
 
 
+
+
+
 class Main extends React.Component {
+  state = {
+    text: 'Hello!',
+    geometry: null,
+  }
+
+  setText(event) {
+    this.setState({ text: event.target.value });
+  }
+
+  async updateGeometry() {
+    let geometry = await generateGeometry({
+      text: this.state.text,
+    });
+    geometry.computeBoundingBox();
+    geometry.applyMatrix( new THREE.Matrix4().makeTranslation(-geometry.boundingBox.max.x/2, -geometry.boundingBox.max.y/2, 0) );
+    this.setState({ geometry: geometry });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.text != this.state.text) {
+      this.updateGeometry();
+    }
+  }
+
+  componentDidMount() {
+    this.updateGeometry();
+  }
+
   render() {
     return (
       <div>
         <h1>test</h1>
-        <ThreePreview />
+        <input type="text" value={this.state.text} onChange={::this.setText} />
+        <ThreePreview geometry={this.state.geometry} />
       </div>
     );
   }
