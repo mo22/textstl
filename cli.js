@@ -3,7 +3,6 @@ import * as base64arraybuffer from 'base64-arraybuffer';
 import optimist from 'optimist';
 import googleFonts from 'google-fonts-complete';
 import fs from 'fs';
-
 const request = System._nodeRequire('request'); // ...
 
 async function main() {

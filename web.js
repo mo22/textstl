@@ -1,12 +1,45 @@
 import * as TextMaker from './TextMaker.js';
 import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
-import base64font from './Damion-Regular.js';
+import googleFonts from 'google-fonts-complete';
 import OrbitControls from 'three-orbit-controls';
 
+async function generateGeometry(options) {
+  let fontSize = options.fontSize || 72;
+  let width = options.width || 20;
+  let text = options.text || 'Hello';
+  let kerning = options.kerning || 0;
+  let output = options.output || 'output.stl';
+  let fontName = options.font || 'Damion';
+  let fontVariant = options.fontVariant || 'normal'; // 'italic?'
+  let fontWeight = options.fontWeight || '400';
+  if (!(fontName in googleFonts)) {
+    console.log(Object.keys(googleFonts));
+    throw new Error('font not found');
+  }
+  let variants = googleFonts[fontName].variants;
+  let variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
+  let face = variant['400'] || variant[Object.keys(variant)[0]];
+  generateGeometry.fontCache = generateGeometry.fontCache || {};
+  let fontData;
+  if (face.url.ttf in generateGeometry.fontCache) {
+    fontData = generateGeometry.fontCache[face.url.ttf];
+  } else {
+    let res = await fetch(face.url.ttf);
+    fontData = await res.arrayBuffer();
+    generateGeometry.fontCache[face.url.ttf] = fontData;
+  }
+  let font = TextMaker.loadFont(fontData);
+  let geometry = TextMaker.stringToGeometry(font, text, fontSize, width);
+  // kerning!
+  return geometry;
+}
+
+
+
 async function main() {
-  let font = TextMaker.loadFont(base64arraybuffer.decode(base64font));
-  let geometry = TextMaker.stringToGeometry(font, 'Hallo', 72, 20);
+  let geometry = await generateGeometry({
+  });
 
   // center
   geometry.computeBoundingBox();
@@ -23,7 +56,7 @@ async function main() {
   const camera =
     new THREE.PerspectiveCamera(
       45,
-      1024.0 / 768.0,
+      document.querySelector('#surface').offsetWidth / document.querySelector('#surface').offsetHeight,
       0.1,
       10000
     );
@@ -52,13 +85,12 @@ async function main() {
     camera.lookAt(scene.position);
     renderer.render(scene, camera);
   }
-
   render();
 
-  // input for text
-  // select for font?
-  
-  // click -> download stl
+  // choose font
+  // react?
+  //
+
 }
 
 main().catch(console.error);
