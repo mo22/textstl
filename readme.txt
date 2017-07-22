@@ -3,5 +3,5 @@
 
 ./node_modules/.bin/jspm run cli.js
 
-./node_modules/.bin/jspm bundle-sfx web.js web.bundle.js
+./node_modules/.bin/jspm bundle-sfx --skip-source-maps --minify web.js web.bundle.js
 

@@ -187,7 +187,6 @@ class Main extends React.Component {
     let blob = new Blob([stl], { type: 'application/octet-stream' });
     let url = window.URL.createObjectURL(blob);
     let a = document.createElement('a');
-    a.style = "display: none";
     a.href = url;
     a.download = 'output.stl';
     document.body.appendChild(a);
