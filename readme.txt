@@ -1,3 +1,4 @@
+jspm install npm:opentype.js npm:base64-arraybuffer npm:three github:Doodle3D/ThreeJS-export-STL npm:optimist npm:google-fonts-complete
 
 jspm install
 
