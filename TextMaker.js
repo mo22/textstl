@@ -1,12 +1,9 @@
-import * as opentype from 'opentype.js';
-import * as base64arraybuffer from 'base64-arraybuffer';
-import * as THREE from 'three';
+import opentype from 'opentype.js';
+import base64arraybuffer from 'base64-arraybuffer';
+import THREE from 'three';
 // import * as exportSTL from '@Doodle3D/ThreeJS-export-STL/src/index.js';
 // import * as exportSTL from '@Doodle3D/ThreeJS-export-STL/module/index.js'
 
-// jspm install npm:opentype.js npm:base64-arraybuffer npm:three github:Doodle3D/ThreeJS-export-STL
-
-// jspm run test7
 // -> use three.js shapes for font
 // -> dynamically download fonts: https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
 // -> live preview? / html version?

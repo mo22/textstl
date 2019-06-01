@@ -1,0 +1,16 @@
+{
+  "name": "app",
+  "dependencies": {
+    "@Doodle3D/ThreeJS-export-STL": "github:Doodle3D/ThreeJS-export-STL@^0.0.2",
+    "base64-arraybuffer": "~0.2.0",
+    "google-fonts-complete": "^1.2.2",
+    "opentype.js": "^1.1.0",
+    "optimist": "~0.6.1",
+    "request": "^2.88.0",
+    "three": "~0.105.1"
+  },
+  "devDependencies": {
+    "@jspm/core": "^1.0.4"
+  },
+  "type": "module"
+}

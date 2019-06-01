@@ -1,9 +1,10 @@
 import * as TextMaker from './TextMaker.js';
-import * as base64arraybuffer from 'base64-arraybuffer';
+import base64arraybuffer from 'base64-arraybuffer';
 import optimist from 'optimist';
 import googleFonts from 'google-fonts-complete';
 import fs from 'fs';
-const request = System._nodeRequire('request'); // ...
+//const request = System._nodeRequire('request'); // ...
+import request from 'request';
 
 async function main() {
   let fontSize = optimist.argv.fontSize || 72;

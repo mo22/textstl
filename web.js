@@ -127,7 +127,7 @@ class ThreePreview extends React.Component {
 
   renderFrame() {
     if (!this.active) return;
-    requestAnimationFrame(::this.renderFrame);
+    requestAnimationFrame(() => this.renderFrame());
     this.frame++;
     // this.mesh.rotation.x = 0.005 * this.frame;
     // this.mesh.rotation.y = 0.002 * this.frame;
@@ -142,7 +142,7 @@ class ThreePreview extends React.Component {
 
   render() {
     return (
-      <div style={{width:1024, height:768}} ref={::this.setSurface} />
+      <div style={{width:1024, height:768}} ref={() => this.setSurface()} />
     );
   }
 
@@ -259,7 +259,7 @@ class Main extends React.Component {
           </select>
         </div>
         <div>
-          <button style={{ alignSelf: 'center', margin: 10 }} onClick={::this.download}>download .stl</button>
+          <button style={{ alignSelf: 'center', margin: 10 }} onClick={() => this.download()}>download .stl</button>
         </div>
       </div>
     );
@@ -278,6 +278,3 @@ class Main extends React.Component {
 }
 
 ReactDOM.render(<Main />, document.querySelector('#root'));
-
-
-
