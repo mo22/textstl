@@ -1,5 +1,5 @@
 import * as opentype from 'opentype.js';
-import THREE from 'three';
+import * as THREE from 'three';
 import * as exportSTL from 'threejs-export-stl';
 
 // -> use three.js shapes for font
@@ -7,16 +7,24 @@ import * as exportSTL from 'threejs-export-stl';
 // -> live preview? / html version?
 // -> test CSG: https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
 
+
+export interface ContourPoint {
+  x: number;
+  y: number;
+  onCurve: boolean;
+}
+
+export type Contour = ContourPoint[];
+
 export function glyphToShapes(glyph: opentype.Glyph) {
   glyph.getMetrics();
   const shapes: THREE.Shape[] = [];
   const holes: THREE.Path[] = [];
-  for (const contour of (glyph.getContours() as opentype.Contour[])) {
-    console.log('contour', contour);
+  for (const contour of (glyph.getContours() as Contour[])) {
     const path = new THREE.Path();
-    const prev = null;
-    const curr = contour[contour.length - 1];
-    const next = contour[0];
+    let prev: ContourPoint|null = null;
+    let curr = contour[contour.length - 1];
+    let next = contour[0];
     if (curr.onCurve) {
       path.moveTo(curr.x, curr.y);
     } else {
@@ -37,11 +45,11 @@ export function glyphToShapes(glyph: opentype.Glyph) {
         let prev2 = prev;
         let next2 = next;
         if (!prev.onCurve) {
-          prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5 };
+          prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5, onCurve: false };
           path.lineTo(prev2.x, prev2.y);
         }
         if (!next.onCurve) {
-          next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5 };
+          next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5, onCurve: false };
         }
         path.lineTo(prev2.x, prev2.y);
         path.quadraticCurveTo(curr.x, curr.y, next2.x, next2.y);
@@ -68,31 +76,6 @@ export function glyphToShapes(glyph: opentype.Glyph) {
   return shapes;
 }
 
-/*
-function glyphToShapes2(glyph) {
-    let shapes = [];
-    // holes ?!
-    var shape = new THREE.Shape();
-    for (let cmd of glyph.getPath().commands) {
-        if (cmd.type == 'M') {
-            shape.moveTo(cmd.x, cmd.y);
-        } else if (cmd.type == 'L') {
-            shape.lineTo(cmd.x, cmd.y);
-        } else if (cmd.type == 'Q') {
-            shape.quadraticCurveTo(cmd.x1, cmd.y1, cmd.x, cmd.y);
-        } else if (cmd.type == 'Z') {
-            shape.closePath();
-            shapes.push(shape);
-            shape = new THREE.Shape();
-        } else {
-            console.log('CMD', cmd);
-        }
-    }
-    if (shape.curves.length > 0) shapes.push(shape);
-    return shapes;
-}
-*/
-
 export function stringToGeometry(args: {
   font: opentype.Font;
   text: string;
@@ -102,8 +85,7 @@ export function stringToGeometry(args: {
 }): THREE.Geometry {
   const geometries: THREE.Geometry[] = [];
   let dx = 0;
-  args.font.forEachGlyph(args.text, 0, 0, args.size, {}, (glyph, x, y) => {
-    console.log('glyph', x, y, dx, glyph);
+  args.font.forEachGlyph(args.text, 0, 0, args.size, undefined, (glyph, x, y) => {
     x += dx;
     if (typeof args.kerning === 'number') {
       dx += args.kerning;

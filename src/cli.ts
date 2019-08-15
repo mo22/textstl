@@ -11,11 +11,9 @@ async function main() {
   const kerning = optimist.argv.kerning || '0';
   const output = optimist.argv.output || 'output.stl';
   const fontName = optimist.argv.font || 'Damion';
-  const fontVariant = optimist.argv.fontVariant || 'normal'; // 'italic?'
-  // const fontWeight = optimist.argv.fontWeight || '400';
+  const fontVariant = optimist.argv.fontVariant || 'normal';
 
   const googleFonts = require('google-fonts-complete');
-
   if (!(fontName in googleFonts)) {
     console.log(Object.keys(googleFonts));
     throw new Error('font not found');
