@@ -11,12 +11,17 @@
   "dependencies": {
     "base64-arraybuffer": "^0.2.0",
     "opentype.js": "^1.1.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "three": "^0.107.0",
+    "three-orbit-controls": "^82.1.0",
     "threejs-export-stl": "0.0.4"
   },
   "devDependencies": {
     "@types/opentype.js": "^0.7.2",
     "@types/optimist": "0.0.29",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "@types/request": "^2.48.2",
     "awesome-typescript-loader": "^5.2.1",
     "file-loader": "^4.2.0",
@@ -27,8 +32,8 @@
     "tslint": "^5.18.0",
     "typescript": "^3.5.3",
     "url-loader": "^2.1.0",
-    "webpack": "^4.39.1",
+    "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.8.0"
   }
 }

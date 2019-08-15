@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*
 
 const EPSILON = 1e-5,
     COPLANAR = 0,
@@ -582,3 +582,4 @@ t();
 }
 
 window.ThreeBSP = ThreeBSP;
+*/

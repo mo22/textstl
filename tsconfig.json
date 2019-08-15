@@ -19,5 +19,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "types/**/*"]
+  "include": ["src/**/*", "types/**/*"],
+  "compileOnSave": true
 }
