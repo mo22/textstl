@@ -1,14 +1,13 @@
 import opentype from 'opentype.js';
 import base64arraybuffer from 'base64-arraybuffer';
 import THREE from 'three';
-// import * as exportSTL from '@Doodle3D/ThreeJS-export-STL/src/index.js';
-// import * as exportSTL from '@Doodle3D/ThreeJS-export-STL/module/index.js'
+import * as exportSTL from 'threejs-export-stl';
 
 // -> use three.js shapes for font
 // -> dynamically download fonts: https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
 // -> live preview? / html version?
 // -> test CSG: https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
-
+/*
 function glyphToShapes(glyph) {
     glyph.getMetrics();
     let shapes = [];
@@ -114,8 +113,8 @@ export function stringToGeometry(font, string, size, width, kerning=0) {
     for (let i of geometries.slice(1)) geometry.merge(i);
     return geometry;
 }
-
-export function loadFont(arg) {
+*/
+export function loadFont(arg: string) {
     let font = opentype.parse(arg);
     return font;
 }
