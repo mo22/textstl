@@ -313,7 +313,9 @@ class Main extends React.Component<MainProps, MainState> {
             {Object.keys(googleFonts).map((a) => (a === 'default') ? null : (
               <option key={a} value={a}>{a}</option>
             ))}
-
+            {!!this.state.fontBin && (
+              <option value={this.state.fontName}>custom: {this.state.fontName}</option>
+            )}
           </select>
         </div>
 
