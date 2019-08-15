@@ -3,6 +3,8 @@ import base64arraybuffer from 'base64-arraybuffer';
 import THREE from 'three';
 import * as exportSTL from 'threejs-export-stl';
 
+console.log('exportSTL', exportSTL);
+
 // -> use three.js shapes for font
 // -> dynamically download fonts: https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
 // -> live preview? / html version?

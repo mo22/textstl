@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "jsx": "react",
     "rootDir": "src",
-    "outDir": "buildts",
+    "outDir": "lib",
     "preserveConstEnums": true,
     "allowJs": false,
     "noImplicitAny": true,
