@@ -2,7 +2,12 @@
   "name": "textstl",
   "version": "1.0.0",
   "description": "create .stl files from font",
-  "scripts": {},
+  "scripts": {
+    "tslint": "tslint --project .",
+    "tsc": "tsc",
+    "webpack-dev-server": "webpack-dev-server",
+    "webpack": "webpack -p"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/mm22/textstl.git"
@@ -13,6 +18,8 @@
   "devDependencies": {
     "@types/opentype.js": "^0.7.2",
     "@types/optimist": "0.0.29",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "awesome-typescript-loader": "^5.2.1",
     "html-webpack-plugin": "^3.2.0",
     "tslint": "^5.18.0",
