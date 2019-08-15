@@ -1,16 +1,26 @@
 {
-  "name": "app",
+  "name": "textstl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "@Doodle3D/ThreeJS-export-STL": "github:Doodle3D/ThreeJS-export-STL@^0.0.2",
-    "base64-arraybuffer": "~0.2.0",
-    "google-fonts-complete": "^1.2.2",
-    "opentype.js": "^1.1.0",
-    "optimist": "~0.6.1",
-    "request": "^2.88.0",
-    "three": "~0.105.1"
+    "three": "^0.107.0",
+    "threejs-export-stl": "0.0.4"
   },
   "devDependencies": {
-    "@jspm/core": "^1.0.4"
-  },
-  "type": "module"
+    "awesome-typescript-loader": "^5.2.1",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  }
 }
