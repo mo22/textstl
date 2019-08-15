@@ -103,7 +103,7 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
 
     this.controls = new (OrbitControls(THREE))(this.camera, this.renderer.domElement);
     this.controls.maxPolarAngle = Math.PI * 1;
-    this.controls.minDistance = 200;
+    this.controls.minDistance = 50;
     this.controls.maxDistance = 1000;
 
     if (this.props.geometry) {

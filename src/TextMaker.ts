@@ -89,16 +89,18 @@ export function stringToGeometry(args: {
     }
     const shapes = glyphToShapes(glyph);
     const geometry = new THREE.ExtrudeGeometry(shapes, {
-      // depth: args.width,
-      // steps: 1,
-
+      depth: args.width,
       steps: 1,
-      depth: 5,
-      bevelEnabled: true,
-      bevelOffset: 1,
-      bevelSize: 1,
-      bevelThickness: 1,
-      bevelSegments: 1,
+
+      // nope...
+
+      // steps: 1,
+      // depth: 5,
+      // bevelEnabled: true,
+      // bevelOffset: 1,
+      // bevelSize: 1,
+      // bevelThickness: 1,
+      // bevelSegments: 1,
 
       // steps: 2,
       // depth: 16,
