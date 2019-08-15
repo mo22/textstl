@@ -1,30 +1,29 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
 import * as TextMaker from './TextMaker.js';
-import * as base64arraybuffer from 'base64-arraybuffer';
 import * as THREE from 'three';
-import googleFonts from 'google-fonts-complete';
 import OrbitControls from 'three-orbit-controls';
 
+const googleFonts = require('google-fonts-complete');
 
 
 
-async function generateGeometry(options) {
-  let fontSize = options.fontSize || 72;
-  let width = options.width || 20;
-  let text = options.text || 'Hello';
-  let kerning = options.kerning || 0;
-  let fontName = options.font || 'Damion';
-  let fontVariant = options.fontVariant || 'normal'; // 'italic?'
-  let fontWeight = options.fontWeight || '400';
+async function generateGeometry(options: any): Promise<THREE.Geometry> {
+  const fontSize = options.fontSize || 72;
+  const width = options.width || 20;
+  const text = options.text || 'Hello';
+  const kerning = options.kerning || 0;
+  const fontName = options.font || 'Damion';
+  const fontVariant = options.fontVariant || 'normal'; // 'italic?'
+  const fontWeight = options.fontWeight || '400';
   if (!(fontName in googleFonts)) {
     console.log(Object.keys(googleFonts));
     throw new Error('font not found');
   }
-  let variants = googleFonts[fontName].variants;
-  let variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
-  let face = variant[fontWeight] || variant[Object.keys(variant)[0]];
+  const variants = googleFonts[fontName].variants;
+  const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
+  const face = variant[fontWeight] || variant[Object.keys(variant)[0]];
+/*
   generateGeometry.fontCache = generateGeometry.fontCache || {};
   let fontData;
   if (face.url.ttf in generateGeometry.fontCache) {
@@ -34,38 +33,48 @@ async function generateGeometry(options) {
     fontData = await res.arrayBuffer();
     generateGeometry.fontCache[face.url.ttf] = fontData;
   }
-  let font = TextMaker.loadFont(fontData);
-  let geometry = TextMaker.stringToGeometry(font, text, fontSize, width, kerning);
+*/
+  const res = await fetch(face.url.ttf);
+  const fontData = await res.arrayBuffer();
+  const font = TextMaker.loadFont(fontData);
+  const geometry = TextMaker.stringToGeometry({
+    font: font,
+    text: text,
+    size: fontSize,
+    width: width,
+    kerning: kerning,
+  });
   return geometry;
 }
 
 
 
+interface ThreePreviewProps {
+  geometry?: THREE.Geometry;
+  style?: any;
+}
 
+class ThreePreview extends React.Component<ThreePreviewProps, {}> {
+  private active = false;
+  private frame: number;
+  private scene: THREE.Scene;
+  private camera: THREE.Camera;
+  private renderer: THREE.WebGLRenderer;
+  private geometry?: THREE.Geometry;
+  private mesh?: THREE.Mesh;
+  private surface: HTMLDivElement | null;
+  private controls: any;
 
-class ThreePreview extends React.Component {
-
-  componentWillUnmount() {
+  public componentWillUnmount() {
     this.active = false;
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.active = true;
-
     this.frame = 0;
-
     this.scene = new THREE.Scene();
 
-    this.camera = new THREE.PerspectiveCamera(
-      75, // 45? 75?
-      this.surface.offsetWidth / this.surface.offsetHeight,
-      0.1,
-      10000
-    );
-    this.camera.position.z = 200;
-    this.scene.add(this.camera);
-
-    var lights = [];
+    const lights = [];
     lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
     lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
     lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
@@ -82,13 +91,23 @@ class ThreePreview extends React.Component {
     // this.pointLight.position.z = 130;
     // this.scene.add(this.pointLight);
 
+    // surface does not exist yet.
+
+    this.camera = new THREE.PerspectiveCamera(
+      75, // 45? 75?
+      1024 / 768,
+      0.1,
+      10000
+    );
+    this.camera.position.z = 200;
+    this.scene.add(this.camera);
+
     this.renderer = new THREE.WebGLRenderer({
-      antialias: true
+      antialias: true,
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(this.surface.offsetWidth, this.surface.offsetHeight);
+    this.renderer.setSize(1024, 768);
     this.renderer.setClearColor(0xffffff, 1);
-    this.surface.appendChild(this.renderer.domElement);
 
     this.controls = new (OrbitControls(THREE))(this.camera, this.renderer.domElement);
     this.controls.maxPolarAngle = Math.PI * 1;
@@ -104,28 +123,33 @@ class ThreePreview extends React.Component {
     this.renderFrame();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.geometry != this.props.geometry) {
+  public componentDidUpdate(prevProps: ThreePreviewProps) {
+    if (prevProps.geometry !== this.props.geometry) {
       this.setGeometry(this.props.geometry);
     }
   }
 
-  setGeometry(geometry) {
-    if (this.mesh) this.scene.remove(this.mesh);
+  public setGeometry(geometry: THREE.Geometry|undefined) {
+    if (this.mesh) {
+      this.scene.remove(this.mesh);
+      this.mesh = undefined;
+    }
     this.geometry = geometry;
-    this.mesh = new THREE.Mesh(
-      this.geometry,
-      new THREE.MeshPhongMaterial({
-        color: 0x156289,
-        emissive: 0x072534,
-        side: THREE.DoubleSide,
-        shading: THREE.FlatShading,
-      })
-    );
-    this.scene.add(this.mesh);
+    if (this.geometry) {
+      this.mesh = new THREE.Mesh(
+        this.geometry,
+        new THREE.MeshPhongMaterial({
+          color: 0x156289,
+          emissive: 0x072534,
+          side: THREE.DoubleSide,
+          // shading: THREE.FlatShading,
+        })
+      );
+      this.scene.add(this.mesh);
+    }
   }
 
-  renderFrame() {
+  private renderFrame() {
     if (!this.active) return;
     requestAnimationFrame(() => this.renderFrame());
     this.frame++;
@@ -135,14 +159,19 @@ class ThreePreview extends React.Component {
     this.renderer.render(this.scene, this.camera);
   }
 
-  setSurface(div) {
-    this.surface = div;
-    if (!div) return;
+  private setSurface(surface: HTMLDivElement|null) {
+    this.surface = surface;
+    if (this.surface) {
+      this.surface.appendChild(this.renderer.domElement);
+    }
   }
 
-  render() {
+  public render() {
     return (
-      <div style={{width:1024, height:768}} ref={() => this.setSurface()} />
+      <div
+        style={{ width: 1024, height: 768 }}
+        ref={(ref) => this.setSurface(ref)}
+      />
     );
   }
 
@@ -150,12 +179,20 @@ class ThreePreview extends React.Component {
 
 
 
-
-
-
-
-class Main extends React.Component {
-  state = {
+interface MainProps {
+}
+interface MainState {
+  text: string;
+  fontName: string;
+  fontSize: string;
+  width: string;
+  fontVariant: string;
+  fontWeight: string;
+  kerning: string;
+  geometry: THREE.Geometry|undefined;
+}
+class Main extends React.Component<MainProps, MainState> {
+  public state: MainState = {
     text: 'Hello!',
     fontName: 'Damion',
     fontSize: '72',
@@ -163,26 +200,28 @@ class Main extends React.Component {
     fontVariant: 'normal',
     fontWeight: '400',
     kerning: '0',
-    geometry: null,
-  }
+    geometry: undefined,
+  };
 
-  async updateGeometry() {
-    let geometry = await generateGeometry({
+  private geometry: any;
+
+  private async updateGeometry() {
+    const geometry = await generateGeometry({
       text: this.state.text,
       font: this.state.fontName,
       fontSize: parseFloat(this.state.fontSize),
       width: parseFloat(this.state.width),
       fontWeight: this.state.fontWeight,
       fontVariant: this.state.fontVariant,
-      kerning: (this.state.kerning.indexOf(',')>=0) ? this.state.kerning.split(',').map(parseFloat) : parseFloat(this.state.kerning),
+      kerning: (this.state.kerning.indexOf(',') >= 0) ? this.state.kerning.split(',').map(parseFloat) : parseFloat(this.state.kerning),
     });
     this.geometry = geometry;
     geometry.computeBoundingBox();
-    geometry.applyMatrix( new THREE.Matrix4().makeTranslation(-geometry.boundingBox.max.x/2, -geometry.boundingBox.max.y/2, 0) );
+    geometry.applyMatrix( new THREE.Matrix4().makeTranslation(-geometry.boundingBox.max.x / 2, -geometry.boundingBox.max.y / 2, 0) );
     this.setState({ geometry: geometry });
   }
 
-  download() {
+  private download() {
     let stl = TextMaker.geometryToSTL(this.geometry);
     let blob = new Blob([stl], { type: 'application/octet-stream' });
     let url = window.URL.createObjectURL(blob);
@@ -195,24 +234,24 @@ class Main extends React.Component {
     window.URL.revokeObjectURL(url);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.text != this.state.text ||
-        prevState.fontName != this.state.fontName ||
-        prevState.fontSize != this.state.fontSize ||
-        prevState.fontVariant != this.state.fontVariant ||
-        prevState.fontWeight != this.state.fontWeight ||
-        prevState.kerning != this.state.kerning ||
-        prevState.width != this.state.width
+  public componentDidUpdate(_prevProps: MainProps, prevState: MainState) {
+    if (prevState.text !== this.state.text ||
+        prevState.fontName !== this.state.fontName ||
+        prevState.fontSize !== this.state.fontSize ||
+        prevState.fontVariant !== this.state.fontVariant ||
+        prevState.fontWeight !== this.state.fontWeight ||
+        prevState.kerning !== this.state.kerning ||
+        prevState.width !== this.state.width
       ) {
       this.updateGeometry();
     }
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.updateGeometry();
   }
 
-  renderSettings() {
+  private renderSettings() {
     return (
       <div>
         <div>
@@ -265,7 +304,7 @@ class Main extends React.Component {
     );
   }
 
-  render() {
+  public render() {
     return (
       <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
         <ThreePreview geometry={this.state.geometry} style={{ display: 'flex', flex: 1 }} />

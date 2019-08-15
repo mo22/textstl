@@ -2,12 +2,6 @@ import * as opentype from 'opentype.js';
 import * as THREE from 'three';
 import * as exportSTL from 'threejs-export-stl';
 
-// -> use three.js shapes for font
-// -> dynamically download fonts: https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR-API-KEY
-// -> live preview? / html version?
-// -> test CSG: https://github.com/chandlerprall/ThreeCSG/blob/master/threeCSG.es6
-
-
 export interface ContourPoint {
   x: number;
   y: number;
