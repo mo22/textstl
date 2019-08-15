@@ -4,6 +4,9 @@ import * as TextMaker from './TextMaker';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 import * as googleFonts from 'google-fonts-complete';
+import { fetch } from 'cross-fetch';
+
+const fontCache: { [name: string]: opentype.Font } = {};
 
 async function generateGeometry(options: any): Promise<THREE.Geometry> {
   const fontSize = options.fontSize || 72;
@@ -20,20 +23,15 @@ async function generateGeometry(options: any): Promise<THREE.Geometry> {
   const variants = googleFonts[fontName].variants;
   const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
   const face = variant[fontWeight] || variant[Object.keys(variant)[0]];
-/*
-  generateGeometry.fontCache = generateGeometry.fontCache || {};
-  let fontData;
-  if (face.url.ttf in generateGeometry.fontCache) {
-    fontData = generateGeometry.fontCache[face.url.ttf];
-  } else {
-    let res = await fetch(face.url.ttf);
-    fontData = await res.arrayBuffer();
-    generateGeometry.fontCache[face.url.ttf] = fontData;
+
+  const url = face.url.ttf!;
+  if (!fontCache[url]) {
+    const res = await fetch(face.url.ttf!);
+    const fontData = await res.arrayBuffer();
+    const font = TextMaker.loadFont(fontData);
+    fontCache[url] = font;
   }
-*/
-  const res = await fetch(face.url.ttf!);
-  const fontData = await res.arrayBuffer();
-  const font = TextMaker.loadFont(fontData);
+  const font = fontCache[url];
   const geometry = TextMaker.stringToGeometry({
     font: font,
     text: text,
@@ -55,11 +53,13 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
   private active = false;
   private frame: number;
   private scene: THREE.Scene;
-  private camera: THREE.Camera;
+  private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
   private geometry?: THREE.Geometry;
   private mesh?: THREE.Mesh;
   private surface: HTMLDivElement | null;
+  private container: HTMLDivElement | null;
+  private size?: { width: number; height: number; };
   private controls: any;
 
   public componentWillUnmount() {
@@ -72,26 +72,18 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
     this.scene = new THREE.Scene();
 
     const lights = [];
-    lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
-    lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
-    lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
-    lights[ 0 ].position.set( 0, 200, 0 );
-    lights[ 1 ].position.set( 100, 200, 100 );
-    lights[ 2 ].position.set( - 100, - 200, - 100 );
-    this.scene.add( lights[ 0 ] );
-    this.scene.add( lights[ 1 ] );
-    this.scene.add( lights[ 2 ] );
-
-    // this.pointLight = new THREE.PointLight(0xffffff);
-    // this.pointLight.position.x = 10;
-    // this.pointLight.position.y = 50;
-    // this.pointLight.position.z = 130;
-    // this.scene.add(this.pointLight);
-
-    // surface does not exist yet.
+    lights[0] = new THREE.PointLight(0xffffff, 1, 0);
+    lights[1] = new THREE.PointLight(0xffffff, 1, 0);
+    lights[2] = new THREE.PointLight(0xffffff, 1, 0);
+    lights[0].position.set(0, 200, 0);
+    lights[1].position.set(100, 200, 100);
+    lights[2].position.set(- 100, - 200, - 100);
+    this.scene.add(lights[0]);
+    this.scene.add(lights[1]);
+    this.scene.add(lights[2]);
 
     this.camera = new THREE.PerspectiveCamera(
-      75, // 45? 75?
+      75,
       1024 / 768,
       0.1,
       10000
@@ -103,7 +95,7 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
       antialias: true,
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(1024, 768);
+    this.renderer.setSize(1024, 768); // @TODO
     this.renderer.setClearColor(0xffffff, 1);
     if (this.surface) {
       this.surface.appendChild(this.renderer.domElement);
@@ -142,7 +134,6 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
           color: 0x156289,
           emissive: 0x072534,
           side: THREE.DoubleSide,
-          // shading: THREE.FlatShading,
         })
       );
       this.scene.add(this.mesh);
@@ -152,8 +143,19 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
   private renderFrame() {
     if (!this.active) return;
     requestAnimationFrame(() => this.renderFrame());
+    if (this.container) {
+      if (this.size === undefined || this.size.width !== this.container.offsetWidth || this.size.height !== this.container.offsetHeight) {
+        this.size = {
+          width: this.container.offsetWidth,
+          height: this.container.offsetHeight,
+        };
+        this.renderer.setSize(this.size.width, this.size.height);
+        this.camera.aspect = this.size.width / this.size.height;
+        this.camera.updateProjectionMatrix();
+      }
+    }
     this.frame++;
-    if (this.mesh) {
+    if (this.mesh && 0) {
       this.mesh.rotation.x = 0.005 * this.frame;
     }
     // this.mesh.rotation.y = 0.002 * this.frame;
@@ -168,12 +170,33 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
     }
   }
 
+  private setContainer(container: HTMLDivElement|null) {
+    this.container = container;
+  }
+
   public render() {
     return (
       <div
-        style={{ width: 1024, height: 768 }}
-        ref={(ref) => this.setSurface(ref)}
-      />
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          margin: 0,
+          padding: 0,
+          ...this.props.style,
+        }}
+        ref={(ref) => this.setContainer(ref)}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            margin: 0,
+            padding: 0,
+          }}
+          ref={(ref) => this.setSurface(ref)}
+        />
+      </div>
     );
   }
 
