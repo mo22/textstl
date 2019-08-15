@@ -14,6 +14,7 @@ export function glyphToShapes(glyph: opentype.Glyph) {
   glyph.getMetrics();
   const shapes: THREE.Shape[] = [];
   const holes: THREE.Path[] = [];
+  // @TODO: opentype has wrong typings here
   for (const contour of (glyph.getContours() as Contour[])) {
     const path = new THREE.Path();
     let prev: ContourPoint|null = null;

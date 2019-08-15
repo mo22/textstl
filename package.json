@@ -1,0 +1,35 @@
+{
+  "name": "textstl",
+  "version": "1.0.0",
+  "description": "create .stl files from font",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/mm22/textstl.git"
+  },
+  "author": "Moritz Moeller",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/mm22/textstl#readme",
+  "devDependencies": {
+    "@types/opentype.js": "^0.7.2",
+    "@types/optimist": "0.0.29",
+    "awesome-typescript-loader": "^5.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.4",
+    "google-fonts-complete": "^1.2.3",
+    "opentype.js": "^1.1.0",
+    "optimist": "^0.6.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "three": "^0.107.0",
+    "three-orbit-controls": "^82.1.0",
+    "threejs-export-stl": "0.0.4"
+  }
+}

@@ -1,8 +1,7 @@
 import * as TextMaker from './TextMaker.js';
-import base64arraybuffer from 'base64-arraybuffer';
 import optimist from 'optimist';
+import { fetch } from 'cross-fetch';
 import * as fs from 'fs';
-import request from 'request';
 import * as googleFonts from 'google-fonts-complete';
 
 async function main() {
@@ -22,15 +21,8 @@ async function main() {
   const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
   const face = variant['400'] || variant[Object.keys(variant)[0]];
 
-  const fontData = await new Promise<Buffer>((resolve, reject) => {
-    request({
-      url: face.url.ttf!,
-      encoding: null,
-    }, (e, _res, data) => {
-      e ? reject(e) : resolve(data);
-    });
-  });
-  const fontBin = base64arraybuffer.decode(fontData.toString('base64'));
+  const req = await fetch(face.url.ttf!);
+  const fontBin = await req.arrayBuffer();
 
   const font = TextMaker.loadFont(fontBin);
   const geometry = TextMaker.stringToGeometry({
@@ -42,8 +34,7 @@ async function main() {
   });
 
   const stl = TextMaker.geometryToSTL(geometry);
-
-  fs.writeFileSync(output, Buffer.from(base64arraybuffer.encode(stl), 'base64'));
+  fs.writeFileSync(output, Buffer.from(stl));
 }
 
 main().catch(console.error);
