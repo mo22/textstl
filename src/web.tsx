@@ -34,7 +34,7 @@ async function generateGeometry(options: any): Promise<THREE.Geometry> {
     generateGeometry.fontCache[face.url.ttf] = fontData;
   }
 */
-  const res = await fetch(face.url.ttf);
+  const res = await fetch(face.url.ttf!);
   const fontData = await res.arrayBuffer();
   const font = TextMaker.loadFont(fontData);
   const geometry = TextMaker.stringToGeometry({

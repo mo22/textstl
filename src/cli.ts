@@ -3,7 +3,7 @@ import base64arraybuffer from 'base64-arraybuffer';
 import optimist from 'optimist';
 import * as fs from 'fs';
 import request from 'request';
-import googleFonts from 'google-fonts-complete';
+import * as googleFonts from 'google-fonts-complete';
 
 async function main() {
   const fontSize = optimist.argv.fontSize || 72;
@@ -24,7 +24,7 @@ async function main() {
 
   const fontData = await new Promise<Buffer>((resolve, reject) => {
     request({
-      url: face.url.ttf,
+      url: face.url.ttf!,
       encoding: null,
     }, (e, _res, data) => {
       e ? reject(e) : resolve(data);

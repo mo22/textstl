@@ -20,13 +20,12 @@ declare module 'google-fonts-complete' {
     lastModified: strng;
     subsets: string[];
     variants: {
-      [variant: 'italic'|'normal']: FontVariant;
+      [variant: string]: FontVariant; // 'italic'|'normal'
     };
     version: string;
   }
 
   const fonts: { [name: string]: Font };
 
-  export default fonts;
-  module.exports = fonts;
+  export = fonts;
 }
