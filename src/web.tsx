@@ -24,9 +24,9 @@ async function generateGeometry(options: any): Promise<THREE.Geometry> {
   const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
   const face = variant[fontWeight] || variant[Object.keys(variant)[0]];
 
-  const url = face.url.ttf!;
+  const url = face.url.ttf!.replace('http:', 'https:');
   if (!fontCache[url]) {
-    const res = await fetch(face.url.ttf!);
+    const res = await fetch(url);
     const fontData = await res.arrayBuffer();
     const font = TextMaker.loadFont(fontData);
     fontCache[url] = font;
