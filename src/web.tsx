@@ -2,11 +2,8 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import * as TextMaker from './TextMaker';
 import * as THREE from 'three';
-import * as OrbitControls from 'three-orbit-controls';
+import OrbitControls from 'three-orbit-controls';
 import * as googleFonts from 'google-fonts-complete';
-
-console.log('googleFonts', googleFonts);
-console.log('OrbitControls', OrbitControls);
 
 async function generateGeometry(options: any): Promise<THREE.Geometry> {
   const fontSize = options.fontSize || 72;
@@ -318,4 +315,4 @@ class Main extends React.Component<MainProps, MainState> {
   }
 }
 
-ReactDOM.render(<Main />, document.querySelector('#root'));
+ReactDOM.render(<Main />, document.querySelector('body'));
