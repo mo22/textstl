@@ -303,25 +303,26 @@ class Main extends React.Component<MainProps, MainState> {
           <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Width</label>
           <input style={{ width: 160, margin: 10 }} type="text" value={this.state.width} onChange={(event) => this.setState({ width: event.target.value })} />
         </div>
-        <div>
-          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Variant</label>
-          <select style={{ width: 160, margin: 10 }} value={this.state.fontVariant} onChange={(event) => this.setState({ fontVariant: event.target.value })}>
-            <option value="normal">normal</option>
-            <option value="italic">italic</option>
-          </select>
-        </div>
-        <div>
-          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Weight</label>
-          <select style={{ width: 160, margin: 10 }} value={this.state.fontWeight} onChange={(event) => this.setState({ fontWeight: event.target.value })}>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="300">300</option>
-            <option value="400">400</option>
-            <option value="500">500</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-          </select>
-        </div>
+        {googleFonts[this.state.fontName] && (
+          <div>
+            <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Variant</label>
+            <select style={{ width: 160, margin: 10 }} value={this.state.fontVariant} onChange={(event) => this.setState({ fontVariant: event.target.value })}>
+              {Object.keys(googleFonts[this.state.fontName].variants).map((i) => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        {googleFonts[this.state.fontName] && googleFonts[this.state.fontName].variants[this.state.fontVariant] && (
+          <div>
+            <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Weight</label>
+            <select style={{ width: 160, margin: 10 }} value={this.state.fontWeight} onChange={(event) => this.setState({ fontWeight: event.target.value })}>
+              {Object.keys(googleFonts[this.state.fontName].variants[this.state.fontVariant]).map((i) => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+            </select>
+          </div>
+        )}
         <div>
           <button style={{ alignSelf: 'center', margin: 10 }} onClick={() => this.download()}>download .stl</button>
         </div>
@@ -341,4 +342,6 @@ class Main extends React.Component<MainProps, MainState> {
   }
 }
 
-ReactDOM.render(<Main />, document.querySelector('body'));
+const el = document.createElement('div');
+document.querySelector('body')!.appendChild(el);
+ReactDOM.render(<Main />, el);
