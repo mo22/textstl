@@ -89,10 +89,32 @@ export function stringToGeometry(args: {
     }
     const shapes = glyphToShapes(glyph);
     const geometry = new THREE.ExtrudeGeometry(shapes, {
+      // depth: args.width,
+      // steps: 1,
+
       steps: 1,
-      depth: args.width,
-      // amount: args.width,
-      bevelEnabled: false,
+      depth: 5,
+      bevelEnabled: true,
+      bevelOffset: 1,
+      bevelSize: 1,
+      bevelThickness: 1,
+      bevelSegments: 1,
+
+      // steps: 2,
+      // depth: 16,
+      // bevelEnabled: true,
+      // bevelThickness: 1,
+      // bevelSize: 1,
+      // bevelOffset: 0,
+      // bevelSegments: 1,
+
+      // depth: args.width,
+      // steps: 20,
+      // bevelEnabled: true,
+      // bevelSize: 5,
+      // bevelThickness: 20,
+      // bevelSegments: 10,
+      // bevelOffset: 0,
     });
     geometry.applyMatrix( new THREE.Matrix4().makeScale(1 / args.font.unitsPerEm * args.size, 1 / args.font.unitsPerEm * args.size, 1) );
     geometry.applyMatrix( new THREE.Matrix4().makeTranslation(x, y, 0) );
