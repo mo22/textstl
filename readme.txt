@@ -1,15 +1,13 @@
-jspm install \
-  npm:base64-arraybuffer \
-  npm:request \
-  npm:opentype.js \
-  npm:three \
-  github:Doodle3D/ThreeJS-export-STL \
-  npm:optimist \
-  npm:google-fonts-complete
+TODO:
+[ ] preview window dynamic size
+[ ] material-ui or something
+[ ] font dependend variants / weights
+[ ] isomorphic-fetch
+[ ] add webpack to package.json scripts
 
-jspm ./cli.js
 
-jspm install
+BUILD INSTRUCTIONS:
 
-jspm bundle-sfx --skip-source-maps --minify web.js web.bundle.js
-scp web.bundle.js alpha.mxs.de:/server/mxs.de/www/textstl/
+  npm install
+
+  npx webpack ...

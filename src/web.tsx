@@ -105,6 +105,9 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(1024, 768);
     this.renderer.setClearColor(0xffffff, 1);
+    if (this.surface) {
+      this.surface.appendChild(this.renderer.domElement);
+    }
 
     this.controls = new (OrbitControls(THREE))(this.camera, this.renderer.domElement);
     this.controls.maxPolarAngle = Math.PI * 1;
@@ -160,7 +163,7 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
 
   private setSurface(surface: HTMLDivElement|null) {
     this.surface = surface;
-    if (this.surface) {
+    if (this.surface && this.renderer) {
       this.surface.appendChild(this.renderer.domElement);
     }
   }
