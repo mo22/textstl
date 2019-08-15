@@ -8,22 +8,14 @@ import { fetch } from 'cross-fetch';
 
 const fontCache: { [name: string]: opentype.Font } = {};
 
-async function generateGeometry(options: any): Promise<THREE.Geometry> {
-  const fontSize = options.fontSize || 72;
-  const width = options.width || 20;
-  const text = options.text || 'Hello';
-  const kerning = options.kerning || 0;
-  const fontName = options.font || 'Damion';
-  const fontVariant = options.fontVariant || 'normal'; // 'italic?'
-  const fontWeight = options.fontWeight || '400';
-  if (!(fontName in googleFonts)) {
+async function getGoogleFont(args: { fontName: string, fontVariant?: string, fontWeight?: string; }): Promise<opentype.Font> {
+  if (!(args.fontName in googleFonts)) {
     console.log(Object.keys(googleFonts));
     throw new Error('font not found');
   }
-  const variants = googleFonts[fontName].variants;
-  const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
-  const face = variant[fontWeight] || variant[Object.keys(variant)[0]];
-
+  const variants = googleFonts[args.fontName].variants;
+  const variant = variants[args.fontVariant || 'normal'] || variants[Object.keys(variants)[0]];
+  const face = variant[args.fontWeight || '400'] || variant[Object.keys(variant)[0]];
   const url = face.url.ttf!.replace('http:', 'https:');
   if (!fontCache[url]) {
     const res = await fetch(url);
@@ -32,6 +24,34 @@ async function generateGeometry(options: any): Promise<THREE.Geometry> {
     fontCache[url] = font;
   }
   const font = fontCache[url];
+  return font;
+}
+
+async function getBinFont(buffer: ArrayBuffer): Promise<opentype.Font> {
+  return TextMaker.loadFont(buffer);
+}
+
+async function generateGeometry(args: {
+  text: string;
+  fontSize?: number;
+  width?: number;
+  kerning?: number|number[];
+  fontName?: string;
+  fontVariant?: string;
+  fontWeight?: string;
+  fontBin?: ArrayBuffer;
+}): Promise<THREE.Geometry> {
+  const fontSize = args.fontSize || 72;
+  const width = args.width || 20;
+  const text = args.text || 'Hello';
+  const kerning = args.kerning || 0;
+  const font = args.fontBin ?
+    await getBinFont(args.fontBin) :
+    await getGoogleFont({
+      fontName: args.fontName!,
+      fontVariant: args.fontVariant,
+      fontWeight: args.fontWeight,
+    });
   const geometry = TextMaker.stringToGeometry({
     font: font,
     text: text,
@@ -208,6 +228,7 @@ interface MainProps {
 }
 interface MainState {
   text: string;
+  fontBin?: ArrayBuffer;
   fontName: string;
   fontSize: string;
   width: string;
@@ -228,12 +249,13 @@ class Main extends React.Component<MainProps, MainState> {
     geometry: undefined,
   };
 
-  private geometry: any;
+  private geometry: THREE.Geometry;
 
   private async updateGeometry() {
     const geometry = await generateGeometry({
       text: this.state.text,
-      font: this.state.fontName,
+      fontBin: this.state.fontBin,
+      fontName: this.state.fontName,
       fontSize: parseFloat(this.state.fontSize),
       width: parseFloat(this.state.width),
       fontWeight: this.state.fontWeight,
@@ -261,6 +283,7 @@ class Main extends React.Component<MainProps, MainState> {
 
   public componentDidUpdate(_prevProps: MainProps, prevState: MainState) {
     if (prevState.text !== this.state.text ||
+        prevState.fontBin !== this.state.fontBin ||
         prevState.fontName !== this.state.fontName ||
         prevState.fontSize !== this.state.fontSize ||
         prevState.fontVariant !== this.state.fontVariant ||
@@ -283,26 +306,40 @@ class Main extends React.Component<MainProps, MainState> {
           <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Text</label>
           <input style={{ width: 160, margin: 10 }} type="text" value={this.state.text} onChange={(event) => this.setState({ text: event.target.value })} />
         </div>
+
         <div>
           <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Font</label>
-          <select style={{ width: 160, margin: 10 }} value={this.state.fontName} onChange={(event) => this.setState({ fontName: event.target.value })}>
-            {Object.keys(googleFonts).map((a) => (
+          <select style={{ width: 160, margin: 10 }} value={this.state.fontName} onChange={(event) => this.setState({ fontName: event.target.value, fontBin: undefined })}>
+            {Object.keys(googleFonts).map((a) => (a === 'default') ? null : (
               <option key={a} value={a}>{a}</option>
             ))}
+
           </select>
         </div>
+
         <div>
-          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Size</label>
-          <input style={{ width: 160, margin: 10 }} type="text" value={this.state.fontSize} onChange={(event) => this.setState({ fontSize: event.target.value })} />
+          <label style={{ display: 'inline-block', width: 80, margin: 10 }}></label>
+          <input
+            style={{ width: 160, margin: 10 }}
+            type="file"
+            accept=".ttf"
+            onChange={async (e) => {
+              const file = e.target.files![0];
+              const buffer = await new Promise<ArrayBuffer>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  resolve(reader.result as ArrayBuffer);
+                };
+                reader.onerror = (e) => {
+                  reject(e);
+                };
+                reader.readAsArrayBuffer(file);
+              });
+              this.setState({ fontName: file.name, fontBin: buffer });
+            }}
+          />
         </div>
-        <div>
-          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Kerning</label>
-          <input style={{ width: 160, margin: 10 }} type="text" value={this.state.kerning} onChange={(event) => this.setState({ kerning: event.target.value })} />
-        </div>
-        <div>
-          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Width</label>
-          <input style={{ width: 160, margin: 10 }} type="text" value={this.state.width} onChange={(event) => this.setState({ width: event.target.value })} />
-        </div>
+
         {googleFonts[this.state.fontName] && (
           <div>
             <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Variant</label>
@@ -323,6 +360,22 @@ class Main extends React.Component<MainProps, MainState> {
             </select>
           </div>
         )}
+
+        <div>
+          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Size</label>
+          <input style={{ width: 160, margin: 10 }} type="text" value={this.state.fontSize} onChange={(event) => this.setState({ fontSize: event.target.value })} />
+        </div>
+
+        <div>
+          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Kerning</label>
+          <input style={{ width: 160, margin: 10 }} type="text" value={this.state.kerning} onChange={(event) => this.setState({ kerning: event.target.value })} />
+        </div>
+
+        <div>
+          <label style={{ display: 'inline-block', width: 80, margin: 10 }}>Width</label>
+          <input style={{ width: 160, margin: 10 }} type="text" value={this.state.width} onChange={(event) => this.setState({ width: event.target.value })} />
+        </div>
+
         <div>
           <button style={{ alignSelf: 'center', margin: 10 }} onClick={() => this.download()}>download .stl</button>
         </div>

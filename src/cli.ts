@@ -13,18 +13,26 @@ async function main() {
   const fontName = optimist.argv.font || 'Damion';
   const fontVariant = optimist.argv.fontVariant || 'normal';
 
-  if (!(fontName in googleFonts)) {
-    console.log(Object.keys(googleFonts));
-    throw new Error('font not found');
+  let font: opentype.Font;
+  if (fontName.endsWith('.ttf') || fontName.endsWith('.otf')) {
+    const fontBin = fs.readFileSync(fontName);
+    font = TextMaker.loadFont(fontBin.buffer);
+
+  } else {
+    if (!(fontName in googleFonts)) {
+      console.log(Object.keys(googleFonts));
+      throw new Error('font not found');
+    }
+    const variants = googleFonts[fontName].variants;
+    const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
+    const face = variant['400'] || variant[Object.keys(variant)[0]];
+
+    const req = await fetch(face.url.ttf!);
+    const fontBin = await req.arrayBuffer();
+
+    font = TextMaker.loadFont(fontBin);
   }
-  const variants = googleFonts[fontName].variants;
-  const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
-  const face = variant['400'] || variant[Object.keys(variant)[0]];
 
-  const req = await fetch(face.url.ttf!);
-  const fontBin = await req.arrayBuffer();
-
-  const font = TextMaker.loadFont(fontBin);
   const geometry = TextMaker.stringToGeometry({
     font: font,
     text: text,
