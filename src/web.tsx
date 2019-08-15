@@ -1,12 +1,12 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import * as TextMaker from './TextMaker.js';
+import * as TextMaker from './TextMaker';
 import * as THREE from 'three';
-import OrbitControls from 'three-orbit-controls';
+import * as OrbitControls from 'three-orbit-controls';
+import * as googleFonts from 'google-fonts-complete';
 
-const googleFonts = require('google-fonts-complete');
-
-
+console.log('googleFonts', googleFonts);
+console.log('OrbitControls', OrbitControls);
 
 async function generateGeometry(options: any): Promise<THREE.Geometry> {
   const fontSize = options.fontSize || 72;
@@ -153,7 +153,9 @@ class ThreePreview extends React.Component<ThreePreviewProps, {}> {
     if (!this.active) return;
     requestAnimationFrame(() => this.renderFrame());
     this.frame++;
-    // this.mesh.rotation.x = 0.005 * this.frame;
+    if (this.mesh) {
+      this.mesh.rotation.x = 0.005 * this.frame;
+    }
     // this.mesh.rotation.y = 0.002 * this.frame;
     this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);

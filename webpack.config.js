@@ -33,6 +33,10 @@ let config = module.exports = {
 
   target: 'web',
 
+  resolve: {
+    extensions: ['.web.tsx', '.tsx', '.web.ts', '.ts', '.web.js', '.js'],
+  },
+
   output: {
     path: path.resolve('./dist'),
     filename: '[name].js',
@@ -40,8 +44,7 @@ let config = module.exports = {
   },
 
   entry: {
-    index: './src/index.tsx',
+    index: './src/web.tsx',
   },
 
 };
-

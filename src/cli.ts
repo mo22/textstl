@@ -1,8 +1,9 @@
 import * as TextMaker from './TextMaker.js';
 import base64arraybuffer from 'base64-arraybuffer';
 import optimist from 'optimist';
-import fs from 'fs';
+import * as fs from 'fs';
 import request from 'request';
+import googleFonts from 'google-fonts-complete';
 
 async function main() {
   const fontSize = optimist.argv.fontSize || 72;
@@ -13,12 +14,10 @@ async function main() {
   const fontName = optimist.argv.font || 'Damion';
   const fontVariant = optimist.argv.fontVariant || 'normal';
 
-  const googleFonts = require('google-fonts-complete');
   if (!(fontName in googleFonts)) {
     console.log(Object.keys(googleFonts));
     throw new Error('font not found');
   }
-
   const variants = googleFonts[fontName].variants;
   const variant = variants[fontVariant] || variants[Object.keys(variants)[0]];
   const face = variant['400'] || variant[Object.keys(variant)[0]];
